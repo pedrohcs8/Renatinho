@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\cmds",
+    "\\cmds\\info",
+    "\\schemas",
+    "\\slashcmds",
+    "\\util"
+  ],
+  "SelectedNode": "\\cmds\\info\\help.js",
+  "PreviewInSolutionExplorer": false
+}
