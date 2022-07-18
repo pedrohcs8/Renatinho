@@ -1,8 +1,8 @@
-Um simples bot criado por pedrohcs8 :)
+Um simples bot criado por pedrohcs8.
 
-Rodando oficialmente em um Raspberry Pi Model B de 8gb de ram
+Atualmente o bot oficial está sem host.
 
-Youtube:
+Youtube: https://www.youtube.com/channel/UCOGQK41J8nLNbzmUI5BoUxw
 
 Servidor Oficial do Discord: https://discord.gg/yYsgRD9vWZ
 
