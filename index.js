@@ -12,6 +12,7 @@ const { MessageEmbed } = require('discord.js')
 // ----------| Packages dos Comandos |----------
 
 // - Comandos de Prefixo
+
 const klaw = require('klaw')
 const { promisify } = require('util')
 const readdir = promisify(require('fs').readdir)
