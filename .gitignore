@@ -1,0 +1,8 @@
+*.env
+node_modules
+/config.json
+<<<<<<< HEAD
+/.vs
+=======
+/.prettierrc.js
+>>>>>>> 038f0c9 (Yes)
