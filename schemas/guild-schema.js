@@ -13,6 +13,9 @@ let guildSchema = new Schema({
   autorole: {
     status: { type: Boolean, default: false },
     roles: { type: Array, default: [] },
+  },
+  memberLog: {
+    status: { type: Boolean, default: false },
     logChannel: { type: String, default: '' },
   },
   cmdblock: {

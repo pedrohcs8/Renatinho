@@ -3,9 +3,8 @@ const guildSchema = require('../../schemas/guild-schema')
 async function loadConfig(client) {
   ;(await guildSchema.find()).forEach((doc) => {
     client.guildConfig.set(doc.idS, {
-      logChannel: doc.autorole.logChannel,
-      memberRoles: doc.autorole.memberRoles,
-      botRoles: doc.autorole.botRoles,
+      logChannel: doc.memberLog.logChannel,
+      roles: doc.autorole.roles,
     })
   })
 
