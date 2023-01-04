@@ -136,8 +136,6 @@ client.distube = new DisTube(client, {
   leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
   nsfw: true,
-  youtubeCookie:
-    'VISITOR_INFO1_LIVE=FwuFcsPIsfs; PREF=tz=America.Cuiaba&f5=20000&ID=abbb80bec4a89bf8%3ATM; __Secure-3PSID=SQhPN-6oDzBolbYRX3Ro_Eo1a-GJHz-yk10t3bl-X_L8AeVCoxuljQhq1zx-AedWuNPQIg.; __Secure-3PAPISID=Cu62c4ReVUGWJhsA/AAnf_XSxA9zoaj9hG; __Secure-3PSIDCC=AIKkIs3qQbvr6_Fs43PNzfpnumkjJxv-6pvOanPoL9-e8aoFYW1nOB80XobhoMXas2SsRGWNfKo; SID=SQhPN-6oDzBolbYRX3Ro_Eo1a-GJHz-yk10t3bl-X_L8AeVCfpmvtNE6pEOMn4N3otKPpQ.; __Secure-1PSID=SQhPN-6oDzBolbYRX3Ro_Eo1a-GJHz-yk10t3bl-X_L8AeVCAIXcwO9jmpFOY-9njcJXRA.; HSID=AyE0lijOoomCDES8…mmF2swRQIhAK2NNKsoWLNYDn-LdxGNfKS4doWqju2Fm0LqE6X9x48DAiBCd5w_Vv7GIB9QiJmFImONZ9MB8R1lzc15lAG2e-BnJA:QUQ3MjNmeTdrNk8waG5haHB4QWZPN1JfRm1pWEdURmJja01Tc3Z1SmQzN05QVjdIdHBhVVduaTdHRVdJT0hjWUdJaFBXZlFnX3g4X3JMN0lQRnMza1Y3U0dvUkhWQUhILXF5YlhSRTl2NnFZUFpTT2lUYVJfanM5N2dBWVNiU3BEcnZ5SlJwT3lIQ2tNMWluYWxiYmlRU0RnQ0g3bjMyYXJn; SIDCC=AIKkIs09-1iKvnzxGivqkYwyL-q_Lbuuw9BsaVxMM3r_JPKLq-CBg6VL1NCGZicgB26_VyJxrx0; __Secure-1PSIDCC=AIKkIs1bISZ3kH3RmVGrZPdEHRYlwQK0PE1KMcxBVOxp1Coq3ezk2j78rezKiMhI3MONqZFeC90; YSC=ebKRVUKsGXA',
   plugins: [new SpotifyPlugin()],
 })
 
