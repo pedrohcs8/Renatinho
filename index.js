@@ -135,6 +135,7 @@ client.distube = new DisTube(client, {
   emitNewSongOnly: true,
   leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
+  nsfw: true,
   plugins: [new SpotifyPlugin()],
 })
 

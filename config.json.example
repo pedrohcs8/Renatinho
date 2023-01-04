@@ -1,0 +1,10 @@
+Retire o .example do nome do arquivo e preencha as informações para iniciar o bot
+
+{
+  "token": "O token do seu bot",
+  "mongoPath": "Url da mongodb",
+  "redisPath": "opcional",
+  "developerGuild": "Id oo seu servidor de testes",
+
+  "dogKey": "Key da Dog Api"
+}
