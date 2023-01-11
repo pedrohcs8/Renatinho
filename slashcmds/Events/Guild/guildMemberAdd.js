@@ -20,6 +20,8 @@ module.exports = {
    */
 
   async execute(member, client) {
+    console.log(`${member.id} entrou no server ${member.guild.name}`)
+
     const { user, guild } = member
 
     const doc = await guildSchema.findOne({ idS: guild.id })

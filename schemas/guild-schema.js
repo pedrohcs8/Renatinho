@@ -14,7 +14,7 @@ let guildSchema = new Schema({
     status: { type: Boolean, default: false },
     roles: { type: Array, default: [] },
   },
-  memberLog: {
+  logs: {
     status: { type: Boolean, default: false },
     logChannel: { type: String, default: '' },
   },

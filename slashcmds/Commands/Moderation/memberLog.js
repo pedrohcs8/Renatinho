@@ -11,19 +11,19 @@ const guildSchema = require('../../../schemas/guild-schema')
 module.exports = {
   subsincluded: true,
   data: new SlashCommandBuilder()
-    .setName('memberlog')
-    .setDescription('Configure os sistemas do bot no seu servidor')
+    .setName('logs')
+    .setDescription('Configure o sistema de logs no seu servidor')
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false)
     .addSubcommand((options) =>
       options
         .setName('info')
-        .setDescription('Mostra as informações do sistema de log de membros')
+        .setDescription('Mostra as informações do sistema de logs')
     )
     .addSubcommand((options) =>
       options
         .setName('canal')
-        .setDescription('Canal onde os Logs de membros serão mandados')
+        .setDescription('Canal onde os logs serão mandados')
         .addChannelOption((options) =>
           options
             .setName('canal')
@@ -35,7 +35,7 @@ module.exports = {
     .addSubcommand((options) =>
       options
         .setName('liga-desliga')
-        .setDescription('Remove um cargo no sistema de autorole')
+        .setDescription('Liga ou desliga o sistema de logs')
         .addStringOption((options) =>
           options
             .setName('opções')
@@ -74,14 +74,14 @@ module.exports = {
           .addFields(
             {
               name: 'Canal',
-              value: !guildData.memberLog.logChannel.length
+              value: !guildData.logs.logChannel.length
                 ? 'Nenhum canal'
-                : `<#${guildData.memberLog.logChannel}>`,
+                : `<#${guildData.logs.logChannel}>`,
             },
             {
               name: 'Status do Sistema',
               value: `Atualmente o sistema está: **${
-                guildData.memberLog.status ? 'ativado' : 'desativado'
+                guildData.logs.status ? 'ativado' : 'desativado'
               }**`,
             }
           )
@@ -94,7 +94,7 @@ module.exports = {
       case 'canal': {
         await guildSchema.findOneAndUpdate(
           { idS: guild.id },
-          { $set: { 'memberLog.logChannel': log_channel.id } },
+          { $set: { 'logs.logChannel': log_channel.id } },
           {
             new: true,
             upsert: true,
@@ -124,7 +124,7 @@ module.exports = {
             interaction.reply('O sistema de Autorole foi ligado.')
             await guildSchema.findOneAndUpdate(
               { idS: guild.id },
-              { $set: { 'memberLog.status': true } }
+              { $set: { 'logs.status': true } }
             )
             break
           }
@@ -133,7 +133,7 @@ module.exports = {
             interaction.reply('O sistema de Log de Membros foi desligado.')
             await guildSchema.findOneAndUpdate(
               { idS: guild.id },
-              { $set: { 'memberLog.status': false } }
+              { $set: { 'logs.status': false } }
             )
             break
           }

@@ -34,7 +34,8 @@ const Ascii = require('ascii-table')
 const { DisTube } = require('distube')
 const { SpotifyPlugin } = require('@distube/spotify')
 
-const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits
+const { Guilds, GuildMembers, GuildMessages, MessageContent } =
+  GatewayIntentBits
 const { User, Message, GuildMember, ThreadMember } = Partials
 
 const { loadEvents } = require('./slashcmds/Handlers/Events')
@@ -127,6 +128,7 @@ const client = new Main({
     GuildMessages,
     'GuildVoiceStates',
     'GuildMessageReactions',
+    MessageContent,
   ],
   partials: [User, Message, GuildMember, ThreadMember],
 })
@@ -256,82 +258,6 @@ client.on('ready', async () => {
   }
 
   await mongo()
-
-  // ----------|--|----------
-
-  // ----------| Slash Commands |----------
-
-  // ----------|--|----------
-
-  // ----------| Comandos Variados (Sem Handler) |----------
-
-  client.on('messageCreate', (message) => {
-    const messages = message.content
-
-    if (message.author.id === '795418788655792129') {
-      return
-      //se for o bot não rola nada k
-    }
-
-    if (messages === '<@!795418788655792129>') {
-      message.reply('O meu prefixo é **.**, se precisar de ajuda use **.help**')
-    }
-
-    if (messages === 'vai toma no cu') {
-      message.reply('**Vai tu krl**')
-    }
-
-    if (messages === 'vai tu') {
-      message.reply('Eu nem tenho cu porra sfd sou um robô.')
-    }
-
-    if (messages === 'fodase') {
-      message.reply('Fodase o karaleo.')
-    }
-
-    if (messages === 'vsfd') {
-      message.reply('**Vai tu krl**')
-    }
-
-    if (messages === 'gremio') {
-      message.reply('Gremiover parça, gremio perde até para um tetraplégico')
-    }
-
-    if (messages === 'cala boca renato') {
-      message.reply('**Cala tu**')
-    }
-
-    if (messages === 'cala boca') {
-      message.reply('**Cala tu**')
-    }
-    if (messages === 'boa noite renatinho') {
-      message.reply('Boa noite :)')
-    }
-    if (messages === 'bom dia renatinho') {
-      message.reply('Bom dia :)')
-    }
-    if (messages === 'pao') {
-      message.reply('Vini????????')
-    }
-    if (messages === 'pedro gay') {
-      message.reply('Minha bola esquerda ele é totamente **H-E-T-E-R-O**!')
-    }
-    if (messages.toLocaleLowerCase() === 'macaquitos') {
-      message.reply('Messi???!?!?!?!?!??!?!?!')
-    }
-    if (messages.toLocaleLowerCase() === 'corinthians') {
-      message.reply('Melhor time slc')
-    }
-    if (messages.toLocaleLowerCase() === 'são paulo') {
-      message.reply('Felipinas?!?!??!?!?!?')
-    }
-    if (messages.toLocaleLowerCase() === 'craque neto') {
-      message.reply('**Um monstro jogando bola**')
-    }
-    if (messages.toLocaleLowerCase() === 'maestro') {
-      message.reply('**BOA TARRRRDE GENTI**')
-    }
-  })
 
   //Status custom aleatório
   // setInterval(() => {

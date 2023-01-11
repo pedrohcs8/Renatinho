@@ -10,6 +10,8 @@ module.exports = {
    */
 
   async execute(member, client) {
+    console.log(`${member.id} saiu do server ${member.guild.name}`)
+
     const guildConfig = client.guildConfig.get(member.guild.id)
 
     console.log(client.guildConfig.get(member.guild.id))
