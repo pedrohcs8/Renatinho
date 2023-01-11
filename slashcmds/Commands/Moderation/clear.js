@@ -89,7 +89,7 @@ module.exports = {
       await interaction.channel
         .bulkDelete(messagesToDelete, true)
         .then(async (messages) => {
-          await interaction.reply({
+          await interaction.editReply({
             embeds: [
               responseEmbed.setDescription(
                 `🧹 Deletei \`${messages.size}\` mensagens de ${target}!`
@@ -112,6 +112,8 @@ module.exports = {
           }
         })
     } else {
+      await interaction.deferReply()
+
       const transcript = await discord_html_transcript.createTranscript(
         interaction.channel,
         { limit: amount }
