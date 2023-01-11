@@ -86,7 +86,7 @@ module.exports = {
       interaction.channel
         .bulkDelete(messagesToDelete, true)
         .then((messages) => {
-          interaction.reply({
+          interaction.channel.send({
             embeds: [
               responseEmbed.setDescription(
                 `🧹 Deletei \`${messages.size}\` mensagens de ${target}!`
@@ -115,7 +115,7 @@ module.exports = {
       )
 
       interaction.channel.bulkDelete(amount, true).then((messages) => {
-        interaction.reply({
+        interaction.channel.send({
           embeds: [
             responseEmbed.setDescription(
               `🧹 Deletei \`${messages.size}\` mensagens!`
