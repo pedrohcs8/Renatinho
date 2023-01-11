@@ -54,9 +54,9 @@ module.exports = {
 
     // SISTEMA DE LOG DE MEMBROS
 
-    if (doc.memberLog.status) {
+    if (doc.logs.status) {
       const logChannel = (await member.guild.channels.fetch()).get(
-        doc.memberLog.logChannel
+        doc.logs.channel
       )
 
       if (!logChannel) {

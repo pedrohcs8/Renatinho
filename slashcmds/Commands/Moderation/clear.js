@@ -51,7 +51,9 @@ module.exports = {
     const target = options.getUser('membro')
 
     const messages = await interaction.channel.messages.fetch()
-    const logChannel = interaction.guild.channels.cache.get(doc.logs.logChannel)
+    const logChannel = interaction.guild.channels.cache.get(doc.logs.channel)
+
+    console.log(doc.logs.channel)
 
     const responseEmbed = new EmbedBuilder().setColor(process.env.EMBED_COLOR)
     const logEmbed = new EmbedBuilder()
@@ -92,9 +94,9 @@ module.exports = {
             ],
           })
 
-          logEmbedDescription.push(`• Deletei: ${messages.size}`)
+          logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
 
-          if (logChannel) {
+          if (logChannel && doc.logs.status) {
             logChannel.send({
               embeds: [logEmbed.setDescription(logEmbedDescription.join('\n'))],
               files: [transcript],
@@ -121,9 +123,9 @@ module.exports = {
           ],
         })
 
-        logEmbedDescription.push(`• Deletei: ${messages.size}`)
+        logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
 
-        if (logChannel) {
+        if (logChannel && doc.logs.status) {
           logChannel.send({
             embeds: [logEmbed.setDescription(logEmbedDescription.join('\n'))],
             files: [transcript],

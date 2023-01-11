@@ -74,9 +74,9 @@ module.exports = {
           .addFields(
             {
               name: 'Canal',
-              value: !guildData.logs.logChannel.length
+              value: !guildData.logs.channel.length
                 ? 'Nenhum canal'
-                : `<#${guildData.logs.logChannel}>`,
+                : `<#${guildData.logs.channel}>`,
             },
             {
               name: 'Status do Sistema',
@@ -94,7 +94,7 @@ module.exports = {
       case 'canal': {
         await guildSchema.findOneAndUpdate(
           { idS: guild.id },
-          { $set: { 'logs.logChannel': log_channel.id } },
+          { $set: { 'logs.channel': log_channel.id } },
           {
             new: true,
             upsert: true,
