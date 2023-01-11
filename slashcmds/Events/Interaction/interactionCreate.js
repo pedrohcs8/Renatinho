@@ -23,6 +23,10 @@ module.exports = {
 
     const subCommand = interaction.options.getSubcommand(false)
 
+    if (command.defer) {
+      await interaction.deferReply()
+    }
+
     if (subCommand) {
       const subCommandFile = client.slashsub.get(
         `${interaction.commandName}.${subCommand}`

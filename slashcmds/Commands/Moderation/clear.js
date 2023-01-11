@@ -9,6 +9,7 @@ const discord_html_transcript = require('discord-html-transcripts')
 const guildSchema = require('../../../schemas/guild-schema')
 
 module.exports = {
+  subsincluded: true,
   data: new SlashCommandBuilder()
     .setName('clear')
     .setDescription('Deleta as mensagens do chat')
@@ -43,8 +44,6 @@ module.exports = {
 
   async execute(interaction) {
     const { options, guild } = interaction
-
-    interaction.deferReply()
 
     const doc = await guildSchema.findOne({ idS: guild.id })
 
@@ -85,10 +84,12 @@ module.exports = {
         interaction.channel
       )
 
-      interaction.channel
+      await interaction.deferReply()
+
+      await interaction.channel
         .bulkDelete(messagesToDelete, true)
-        .then((messages) => {
-          interaction.editReply({
+        .then(async (messages) => {
+          await interaction.reply({
             embeds: [
               responseEmbed.setDescription(
                 `🧹 Deletei \`${messages.size}\` mensagens de ${target}!`
@@ -116,29 +117,31 @@ module.exports = {
         { limit: amount }
       )
 
-      interaction.channel.bulkDelete(amount, true).then((messages) => {
-        interaction.editReply({
-          embeds: [
-            responseEmbed.setDescription(
-              `🧹 Deletei \`${messages.size}\` mensagens!`
-            ),
-          ],
+      await interaction.channel
+        .bulkDelete(amount, true)
+        .then(async (messages) => {
+          await interaction.editReply({
+            embeds: [
+              responseEmbed.setDescription(
+                `🧹 Deletei \`${messages.size}\` mensagens!`
+              ),
+            ],
+          })
+
+          logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
+
+          if (logChannel && doc.logs.status) {
+            logChannel.send({
+              embeds: [logEmbed.setDescription(logEmbedDescription.join('\n'))],
+              files: [transcript],
+            })
+          } else {
+            interaction.channel.send({
+              content: `Eu não consegui mandar uma mensagem de log pois não há nenhum canal de logs configurado, configure com /logs.`,
+              ephemeral: true,
+            })
+          }
         })
-
-        logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
-
-        if (logChannel && doc.logs.status) {
-          logChannel.send({
-            embeds: [logEmbed.setDescription(logEmbedDescription.join('\n'))],
-            files: [transcript],
-          })
-        } else {
-          interaction.channel.send({
-            content: `Eu não consegui mandar uma mensagem de log pois não há nenhum canal de logs configurado, configure com /logs.`,
-            ephemeral: true,
-          })
-        }
-      })
     }
   },
 }
