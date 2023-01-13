@@ -43,8 +43,6 @@ module.exports = {
    */
 
   async execute(interaction, client) {
-    await interaction.deferReply()
-
     const { options, guild } = interaction
 
     const doc = client.guildConfig.get(guild.id)
