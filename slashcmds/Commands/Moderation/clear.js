@@ -82,11 +82,6 @@ module.exports = {
         }
       })
 
-      const transcript = await discord_html_transcript.generateFromMessages(
-        messagesToDelete,
-        interaction.channel
-      )
-
       interaction.channel
         .bulkDelete(messagesToDelete, true)
         .then(async (messages) => {
@@ -99,6 +94,11 @@ module.exports = {
           })
 
           logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
+
+          const transcript = await discord_html_transcript.generateFromMessages(
+            messagesToDelete,
+            interaction.channel
+          )
 
           if (logChannel && doc.logChannelActive) {
             logChannel.send({
@@ -113,11 +113,6 @@ module.exports = {
           }
         })
     } else {
-      const transcript = await discord_html_transcript.createTranscript(
-        interaction.channel,
-        { limit: amount }
-      )
-
       interaction.channel.bulkDelete(amount, true).then(async (messages) => {
         await interaction.reply({
           embeds: [
@@ -128,6 +123,11 @@ module.exports = {
         })
 
         logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
+
+        const transcript = await discord_html_transcript.createTranscript(
+          interaction.channel,
+          { limit: amount }
+        )
 
         if (logChannel && doc.logChannelActive) {
           logChannel.send({
