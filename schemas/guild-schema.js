@@ -16,7 +16,7 @@ let guildSchema = new Schema({
   },
   logs: {
     status: { type: Boolean, default: false },
-    logChannel: { type: String, default: '' },
+    channel: { type: String, default: '' },
   },
   cmdblock: {
     status: { type: Boolean, default: false },

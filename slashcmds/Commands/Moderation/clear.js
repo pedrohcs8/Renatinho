@@ -42,19 +42,24 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction
    */
 
-  async execute(interaction) {
+  async execute(interaction, client) {
+    await interaction.deferReply()
+
     const { options, guild } = interaction
 
-    const doc = await guildSchema.findOne({ idS: guild.id })
+    const doc = client.guildConfig.get(guild.id)
+
+    console.log(doc)
 
     const amount = options.getNumber('quantidade')
     const reason = options.getString('motivo')
     const target = options.getUser('membro')
 
     const messages = await interaction.channel.messages.fetch()
-    const logChannel = interaction.guild.channels.cache.get(doc.logs.channel)
+    const logChannel = interaction.guild.channels.cache.get(doc.logChannel)
 
-    console.log(doc.logs.channel)
+    console.log(doc.logChannel)
+    console.log(doc.logChannelActive)
 
     const responseEmbed = new EmbedBuilder().setColor(process.env.EMBED_COLOR)
     const logEmbed = new EmbedBuilder()
