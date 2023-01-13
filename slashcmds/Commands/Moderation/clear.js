@@ -43,7 +43,6 @@ module.exports = {
    */
 
   async execute(interaction) {
-    await interaction.deferReply()
     const { options, guild } = interaction
 
     const doc = await guildSchema.findOne({ idS: guild.id })
@@ -88,7 +87,7 @@ module.exports = {
       interaction.channel
         .bulkDelete(messagesToDelete, true)
         .then(async (messages) => {
-          await interaction.followUp({
+          await interaction.reply({
             embeds: [
               responseEmbed.setDescription(
                 `🧹 Deletei \`${messages.size}\` mensagens de ${target}!`
@@ -117,7 +116,7 @@ module.exports = {
       )
 
       interaction.channel.bulkDelete(amount, true).then(async (messages) => {
-        await interaction.channel.send({
+        await interaction.reply({
           embeds: [
             responseEmbed.setDescription(
               `🧹 Deletei \`${messages.size}\` mensagens!`
