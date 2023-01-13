@@ -100,7 +100,7 @@ module.exports = {
 
           logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
 
-          if (logChannel && doc.logs.status) {
+          if (logChannel && doc.logChannelActive) {
             logChannel.send({
               embeds: [logEmbed.setDescription(logEmbedDescription.join('\n'))],
               files: [transcript],
@@ -129,7 +129,7 @@ module.exports = {
 
         logEmbedDescription.push(`• Deletei: ${messages.size} mensagem(ns)`)
 
-        if (logChannel && doc.logs.status) {
+        if (logChannel && doc.logChannelActive) {
           logChannel.send({
             embeds: [logEmbed.setDescription(logEmbedDescription.join('\n'))],
             files: [transcript],
