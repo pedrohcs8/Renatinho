@@ -10,7 +10,9 @@ module.exports = {
    */
 
   async execute(member, client) {
-    console.log(`${member.id} saiu do server ${member.guild.name}`)
+    console.log(
+      `${member.user.tag} (${member.id}) saiu do server ${member.guild.name}`
+    )
 
     const guildConfig = client.guildConfig.get(member.guild.id)
 

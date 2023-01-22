@@ -20,7 +20,9 @@ module.exports = {
    */
 
   async execute(member, client) {
-    console.log(`${member.id} entrou no server ${member.guild.name}`)
+    console.log(
+      `${member.user.tag} (${member.id}) entrou no server ${member.guild.name}`
+    )
 
     const { user, guild } = member
 
