@@ -30,6 +30,8 @@ module.exports = {
    */
 
   async execute(interaction) {
+    await interaction.deferReply()
+
     const { options } = interaction
 
     const quantidade = options.getNumber('quantidade')
@@ -37,7 +39,7 @@ module.exports = {
 
     console.log(frase)
 
-    interaction.reply('Super spam has started!')
+    interaction.editReply('Super spam has started!')
 
     for (var i = 0; i < quantidade; i++) {
       console.log(i)
