@@ -16,7 +16,7 @@ module.exports = {
         .setDescription('Quantidade de vezes que o bot vai spamar')
         .setRequired(true)
         .setMinValue(1)
-        .setMaxValue(1000)
+        .setMaxValue(100000)
     )
     .addStringOption((options) =>
       options
