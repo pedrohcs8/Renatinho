@@ -39,7 +39,7 @@ module.exports = {
 
     console.log(frase)
 
-    interaction.editReply('Super spam has started!')
+    interaction.editReply({ content: 'Super spam has started!' })
 
     for (var i = 0; i < quantidade; i++) {
       console.log(i)
