@@ -35,13 +35,13 @@ module.exports = {
     const quantidade = options.getNumber('quantidade')
     const frase = options.getString('frase')
 
+    console.log(frase)
+
     interaction.reply('Super spam has started!')
 
     for (var i = 0; i < quantidade; i++) {
       console.log(i)
-      interaction.channel
-        .send({ content: `${frase}` })
-        .then((x) => console.log(i--))
+      interaction.channel.send({ content: frase }).then((x) => console.log(i--))
     }
   },
 }
