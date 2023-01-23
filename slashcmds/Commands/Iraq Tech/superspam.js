@@ -31,20 +31,26 @@ module.exports = {
    */
 
   async execute(interaction) {
-    await interaction.deferReply()
+    try {
+      await interaction.deferReply()
 
-    const { options } = interaction
+      const { options } = interaction
 
-    const quantidade = options.getNumber('quantidade')
-    const frase = options.getString('frase')
+      const quantidade = options.getNumber('quantidade')
+      const frase = options.getString('frase')
 
-    console.log(frase)
+      console.log(frase)
 
-    interaction.editReply({ content: 'Super spam has started!' })
+      interaction.editReply({ content: 'Super spam has started!' })
 
-    for (var i = 0; i < quantidade; i++) {
-      console.log(i)
-      interaction.channel.send({ content: frase }).then((x) => console.log(i--))
+      for (var i = 0; i < quantidade; i++) {
+        console.log(i)
+        interaction.channel
+          .send({ content: frase })
+          .then((x) => console.log(i--))
+      }
+    } catch {
+      console.log('Tiraro minhas permissao :(')
     }
   },
 }
