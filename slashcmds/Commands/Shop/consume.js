@@ -8,6 +8,7 @@ const {
 const profileSchema = require('../../../schemas/profile-schema')
 
 module.exports = {
+  memberId: '',
   data: new SlashCommandBuilder()
     .setName('consume')
     .setDescription('Comando para consumir os itens do seu inventário'),
@@ -19,6 +20,8 @@ module.exports = {
 
   async execute(interaction) {
     const { member } = interaction
+
+    this.memberId = member.id
 
     const personData = await profileSchema.findOne({ userId: member.id })
 

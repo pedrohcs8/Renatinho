@@ -16,7 +16,16 @@ module.exports = {
       return
     }
 
-    const { member } = interaction
+    const { memberId } = require('../../Commands/Shop/consume')
+
+    console.log(memberId)
+
+    if (interaction.member.id !== memberId) {
+      return interaction.reply({
+        content: 'Você não tem permissão para usar esse menu',
+        ephemeral: true,
+      })
+    }
 
     const menuChoice = interaction.values[0].split('-', 2)
     const productId = menuChoice[0]
@@ -25,7 +34,7 @@ module.exports = {
     const seller = await profileSchema.findOne({ userId: ownerId })
 
     const customeritens = await profileSchema
-      .findOne({ userId: member.id })
+      .findOne({ userId: memberId })
       .then((x) => Object.entries(x.customshopitens))
 
     const itensininventoryobj = customeritens.filter(
@@ -48,14 +57,14 @@ module.exports = {
           [`customshopitens.${key}.id`]: itensininventory.id,
           [`customshopitens.${key}.name`]: itensininventory.name,
           [`customshopitens.${key}.emoji`]: itensininventory.emoji,
-          [`customshopitens.${key}.owner`]: member.id,
+          [`customshopitens.${key}.owner`]: memberId,
           [`customshopitens.${key}.shopName`]: seller.customshop.name,
         }),
       {}
     )
 
     //Atualiza os dados na conta da pessoa
-    await profileSchema.findOneAndUpdate({ userId: member.id }, updateObject)
+    await profileSchema.findOneAndUpdate({ userId: memberId }, updateObject)
 
     interaction.reply(`Você consumiu 1 ${itensininventory.name} com sucesso`)
   },
