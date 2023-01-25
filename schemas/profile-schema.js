@@ -92,6 +92,12 @@ const profileSchema = mongoose.Schema({
     itens: { type: Array, default: [] },
   },
   customshopitens: { type: Array, default: [] },
+  custombackground: {
+    has: { type: Boolean, default: false },
+    active: { type: Boolean, default: false },
+    path: { type: String, default: '' },
+    fontColor: { type: String, default: '' },
+  },
 })
 
 module.exports = mongoose.model('profiles', profileSchema)

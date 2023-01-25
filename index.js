@@ -94,25 +94,6 @@ class Main extends Client {
     return [await this.initLoaders()]
   }
 
-  load(commandPath, commandName) {
-    const props = new (require(`${commandPath}/${commandName}`))(this)
-    if (props.isSub) {
-      if (!this.subcommands.get(props.reference)) {
-        this.subcommands.set(props.reference, new Collection())
-      }
-      this.subcommands.get(props.reference).set(props.name, props)
-    }
-    if (props.isSub) return
-    props.location = commandPath
-    if (props.init) {
-      props.init(this)
-    }
-    this.commands.set(props.name, props)
-    props.aliases.forEach((aliases) => {
-      this.aliases.set(aliases, props.name)
-    })
-  }
-
   async initLoaders() {
     return Files.requireDirectory('./loaders', (Loader) => {
       Loader.load(this).then(
@@ -213,18 +194,7 @@ client.distube
 
 require('./slashcmds/Systems/giveaway-system')(client)
 
-const onLoad = async () => {
-  klaw('./cmds').on('data', (item) => {
-    const cmdFile = path.parse(item.path)
-    if (!cmdFile.ext || cmdFile.ext !== '.js') return
-    const response = client.load(cmdFile.dir, `${cmdFile.name}${cmdFile.ext}`)
-    if (response) return
-  })
-
-  client.login()
-}
-
-onLoad()
+client.login()
 
 module.exports = {
   Util: require('./util/index.js'),

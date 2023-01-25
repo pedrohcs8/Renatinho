@@ -32,32 +32,9 @@ module.exports.addBank = async (userId, coins) => {
   return user.bank
 }
 
-module.exports.getCoins = async (guildId, userId) => {
-  const cachedValue = coinsCache[`${guildId}-${userId}`]
-  if (cachedValue) {
-    return cachedValue
-  }
+module.exports.getCoins = async (userId) => {
+  const doc = await profileSchema.findOne({ userId: userId })
 
-  console.log('Rodando findOne()')
-
-  const result = await profileSchema.findOne({
-    guildId,
-    userId,
-  })
-
-  let coins = 0
-  if (result) {
-    coins = result.coins
-  } else {
-    console.log('Inserting a document')
-    await new profileSchema({
-      guildId,
-      userId,
-      coins,
-    }).save()
-  }
-
-  coinsCache[`${guildId}-${userId}`] = coins
-
+  const coins = doc.coins
   return coins
 }

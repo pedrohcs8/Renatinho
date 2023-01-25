@@ -1,6 +1,7 @@
 const { Message, EmbedBuilder, Client } = require('discord.js')
 const db = require('../../../schemas/afk-schema')
 const profileSchema = require('../../../schemas/profile-schema')
+const guildSchema = require('../../../schemas/guild-schema')
 
 module.exports = {
   name: 'messageCreate',
@@ -58,7 +59,7 @@ module.exports = {
     }
 
     try {
-      const server = await this.client.database.guilds.findOne({
+      const server = await guildSchema.findOne({
         idS: message.guild.id,
       })
       let user = await profileSchema.findOne({
@@ -74,7 +75,7 @@ module.exports = {
 
       //Cria o documento se o Servidor não estiver cadastrado
       if (!server)
-        await this.client.database.guilds.create({
+        await guildSchema.create({
           idS: message.guild.id,
           name: message.guild.name,
         })
@@ -86,7 +87,7 @@ module.exports = {
         let nextLevel = user.Exp.nextLevel * level
 
         if (user.Exp.id == 'null') {
-          await this.client.database.users.findOneAndUpdate(
+          await profileSchema.findOneAndUpdate(
             { userId: message.author.id },
             { $set: { 'Exp.id': message.author.id } }
           )
@@ -106,7 +107,7 @@ module.exports = {
         )
 
         if (xp >= nextLevel) {
-          await this.client.database.users.findOneAndUpdate(
+          await profileSchema.findOneAndUpdate(
             { userId: message.author.id },
             { $set: { 'Exp.xp': 0, 'Exp.level': level + 1 } }
           )
