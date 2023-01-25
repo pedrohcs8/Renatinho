@@ -1,32 +1,32 @@
-const Guild = require('@schemas/guild-schema')
+// const Guild = require('@schemas/guild-schema')
 
-module.exports = class {
-  constructor(client) {
-    this.client = client
-  }
+// module.exports = class {
+//   constructor(client) {
+//     this.client = client
+//   }
 
-  async run(channel) {
-    try {
-      const channels = await Guild.findOne({
-        idS: channel.guild.id,
-      }).then((r) => Object.entries(r.serverstats.channels))
+//   async run(channel) {
+//     try {
+//       const channels = await Guild.findOne({
+//         idS: channel.guild.id,
+//       }).then((r) => Object.entries(r.serverstats.channels))
 
-      const updatedObject = channels
-        .filter(([, c]) => c === channel.id)
-        .reduce(
-          (o, [key]) =>
-            Object.assign(o, {
-              [`serverstats.channels.${key}`]: 'null',
-            }),
-          {},
-        )
+//       const updatedObject = channels
+//         .filter(([, c]) => c === channel.id)
+//         .reduce(
+//           (o, [key]) =>
+//             Object.assign(o, {
+//               [`serverstats.channels.${key}`]: 'null',
+//             }),
+//           {},
+//         )
 
-      return await Guild.findOneAndUpdate(
-        { idS: channel.guild.id },
-        updatedObject,
-      )
-    } catch (err) {
-      console.log(`EVENTO: ChannelDelete ${err}`)
-    }
-  }
-}
+//       return await Guild.findOneAndUpdate(
+//         { idS: channel.guild.id },
+//         updatedObject,
+//       )
+//     } catch (err) {
+//       console.log(`EVENTO: ChannelDelete ${err}`)
+//     }
+//   }
+// }

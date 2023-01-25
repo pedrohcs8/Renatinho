@@ -1,5 +1,6 @@
 const { Message, EmbedBuilder, Client } = require('discord.js')
 const db = require('../../../schemas/afk-schema')
+const profileSchema = require('../../../schemas/profile-schema')
 
 module.exports = {
   name: 'messageCreate',
@@ -54,6 +55,72 @@ module.exports = {
     }
     if (messages.toLocaleLowerCase() === 'maestro') {
       channel.send('**BOA TARRRRDE GENTI**')
+    }
+
+    try {
+      const server = await this.client.database.guilds.findOne({
+        idS: message.guild.id,
+      })
+      let user = await profileSchema.findOne({
+        userId: message.author.id,
+      })
+
+      //Cria o documento se o Usuário não estiver cadastrado
+      if (!user)
+        await profileSchema.create({
+          userId: message.author.id,
+          name: message.author.tag,
+        })
+
+      //Cria o documento se o Servidor não estiver cadastrado
+      if (!server)
+        await this.client.database.guilds.create({
+          idS: message.guild.id,
+          name: message.guild.name,
+        })
+
+      // Sistema de XP
+      if (!message.author.bot) {
+        let xp = user.Exp.xp
+        let level = user.Exp.level
+        let nextLevel = user.Exp.nextLevel * level
+
+        if (user.Exp.id == 'null') {
+          await this.client.database.users.findOneAndUpdate(
+            { userId: message.author.id },
+            { $set: { 'Exp.id': message.author.id } }
+          )
+        }
+
+        let xpGive = Math.floor(Math.random() * 5) + 1
+
+        await profileSchema.findOneAndUpdate(
+          { userId: message.author.id },
+          {
+            $set: {
+              name: message.author.tag,
+              'Exp.xp': xp + xpGive,
+              'Exp.user': message.author.tag,
+            },
+          }
+        )
+
+        if (xp >= nextLevel) {
+          await this.client.database.users.findOneAndUpdate(
+            { userId: message.author.id },
+            { $set: { 'Exp.xp': 0, 'Exp.level': level + 1 } }
+          )
+
+          message.reply(
+            `${message.author}, você acaba de subir para o level **${
+              level + 1
+            }**.`
+          )
+          message.react('⬆️')
+        }
+      }
+    } catch (err) {
+      if (err) console.log(err)
     }
   },
 }

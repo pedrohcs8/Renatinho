@@ -1,9 +1,9 @@
-const Guild = require('@schemas/guild-schema')
+// const Guild = require('@schemas/guild-schema')
 
-module.exports = class {
-  constructor(client) {
-    this.client = client
-  }
+// module.exports = class {
+//   constructor(client) {
+//     this.client = client
+//   }
 
-  async run(member) {}
-}
+//   async run(member) {}
+// }
