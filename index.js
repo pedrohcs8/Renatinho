@@ -221,14 +221,6 @@ const onLoad = async () => {
     if (response) return
   })
 
-  const eventFiles = await readdir(`./client/listeningIn/`)
-  eventFiles.forEach((file) => {
-    const eventName = file.split('.')[0]
-    const event = new (require(`./client/listeningIn/${file}`))(client)
-    client.on(eventName, (...args) => event.run(...args))
-    delete require.cache[require.resolve(`./client/listeningIn/${file}`)]
-  })
-
   client.login()
 }
 
