@@ -4,54 +4,40 @@ const guildSchema = require('../../../schemas/guild-schema')
 module.exports = {
   name: 'messageUpdate',
 
-  async execute(newMessage, oldMessage, client) {
-    guildSchema.findOne({ idS: newMessage.guild.id }, async (err, server) => {
-      try {
-        if (newMessage.author.bot) return // caso um bot tenha editado alguma mensagem ele não vai mandar no canal de LOGS.
-        const guild = newMessage.guild
+  async execute(newMessage, oldMessage) {
+    const doc = await guildSchema.findOne({ idS: oldMessage.guild.id })
 
-        if (oldMessage.content === newMessage.content) return
+    if (oldMessage.author.bot) {
+      return
+    }
 
-        this.client.emit('messageCreate', newMessage)
+    if (oldMessage.content == newMessage.content) {
+      return
+    }
 
-        const UPDATE = new EmbedBuilder()
-          .setAuthor(guild.name, guild.iconURL({ dynamic: true }))
-          .setTitle(`Mensagem Editada`)
-          .addFields(
-            {
-              name: `Author`,
-              value: `${newMessage.author}`, // pega o author da mensagem
-            },
-            {
-              name: `Mensagem Anterior`,
-              value: `${oldMessage.content}`,
-            },
-            {
-              name: `Mensagem Posterior`,
-              value: `${newMessage.content}`,
-            },
-            {
-              name: `Canal`,
-              value: `${newMessage.channel}`,
-            }
-          )
-          .setThumbnail(
-            newMessage.author.displayAvatarURL({ dynamic: true, size: 2048 })
-          )
-          .setFooter(
-            `${newMessage.author.tag} | ${newMessage.author.id}`,
-            newMessage.author.displayAvatarURL({ dynamic: true, size: 2048 })
-          )
-          .setTimestamp()
-          .setColor(process.env.EMBED_COLOR)
+    const Count = 1950
 
-        if (server.logs.status) {
-          const channel = guild.channels.cache.get(server.logs.channel)
-          channel.send({ embeds: [UPDATE] })
-        }
-      } catch (err) {
-        console.log(`EVENTO: MessageUpdate ${err}`)
-      }
-    })
+    const original =
+      oldMessage.content.slice(0, Count) +
+      (oldMessage.content.length > 1950 ? ' ...' : '')
+
+    const edited =
+      newMessage.content.slice(0, Count) +
+      (newMessage.content.length > 1950 ? ' ...' : '')
+
+    const logEmbed = new EmbedBuilder()
+      .setColor(process.env.EMBED_COLOR)
+      .setDescription(
+        `📘 Uma  [mensagem](${newMessage.url}) por ${newMessage.author} foi **editada** em ${newMessage.channel}.\n
+        **Original:**\n ${original} \n**Editada**:\n ${edited}`
+      )
+      .setFooter({
+        text: `Membro: ${newMessage.author.tag} | ID: ${newMessage.author.id}`,
+      })
+
+    if (doc.logs.status) {
+      const channel = newMessage.guild.channels.cache.get(doc.logs.channel)
+      channel.send({ embeds: [logEmbed] })
+    }
   },
 }

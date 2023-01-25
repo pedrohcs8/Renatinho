@@ -87,8 +87,8 @@ module.exports = {
       interaction.reply(
         `Você trocou sua foto de fundo customizada ${
           fontColor !== '#FFFFFF'
-            ? ''
-            : `e a cor da sua fonte para ${fontColor}`
+            ? `e a cor da sua fonte para ${fontColor}`
+            : ''
         } com sucesso`
       )
     } else {

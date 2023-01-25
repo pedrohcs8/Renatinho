@@ -60,7 +60,7 @@ module.exports = {
 
       //Username
       ctx.textAlign = 'left'
-      ctx.font = ' 50px "Segoe UI Black"'
+      ctx.font = '50px "Segoe UI Black"'
       ctx.fillStyle = fontColor
       await Util.renderEmoji(ctx, this.shorten(User.username, 20), 200, 100)
 
@@ -91,12 +91,13 @@ module.exports = {
         .replace('HypeSquadOnlineHouse3', Emojis.Balance)
         .replace('VERIFIED_BOT', Emojis.Verified_Bot)
         .replace('VERIFIED_DEVELOPER', Emojis.Verified_Developer)
+        .replace('ActiveDeveloper', Emojis.ActiveDeveloper)
         .replace('CASADO', Emojis.Alianca)
         .replace('DONO', '🔰')
         .replace('SERVER_OWNER', Emojis.Server_Owner)
 
       ctx.font = '30px "Segoe Print"'
-      await Util.renderEmoji(ctx, list.split(', ').join(''), 200, 150)
+      await Util.renderEmoji(ctx, list.split(',').join(''), 200, 150)
 
       // Titles
       ctx.textAlign = 'left'
@@ -123,8 +124,6 @@ module.exports = {
       }
 
       //Sobre
-
-      //TODO: Fazer o comando sobremim
       ctx.font = '20px "Montserrat Black"'
       ctx.fillStyle = fontColor
       ctx.fillText(
@@ -180,7 +179,7 @@ module.exports = {
           id: 1,
           price: 5000,
           background:
-            './src/assets/img/png/Background_renato_Vaporwave bonito.png',
+            './src/assets/img/png/Background_renato_Vaporwave_bonito.png',
         },
         two: {
           id: 2,
@@ -196,8 +195,6 @@ module.exports = {
       }
 
       let back_img = ''
-
-      console.log('normal image')
 
       if (bg === 0) {
         back_img = './src/assets/img/png/backup_nova.png'
@@ -246,14 +243,15 @@ module.exports = {
         .replace('VERIFIED_DEVELOPER', Emojis.Verified_Developer)
         .replace('CASADO', Emojis.Alianca)
         .replace('DONO', '🔰') //Dono do Bot
+        .replace('ActiveDeveloper', Emojis.ActiveDeveloper)
         .replace('SERVER_OWNER', Emojis.Server_Owner)
 
       ctx.font = '30px "Segoe Print"'
-      await Util.renderEmoji(ctx, list.split(', ').join(''), 230, 240)
+      await Util.renderEmoji(ctx, list.split(',').join(''), 230, 240)
 
       // Titles
       ctx.textAlign = 'left'
-      ctx.font = ' 30px "Segoe UI Black"'
+      ctx.font = '30px "Segoe UI Black"'
       ctx.fillStyle = 'rgb(253, 255, 252)'
       ctx.fillText('Coins:', 10, 500)
       ctx.fillText(`XP:`, 10, 570)

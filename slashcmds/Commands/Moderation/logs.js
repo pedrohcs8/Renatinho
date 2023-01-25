@@ -67,7 +67,7 @@ module.exports = {
       case 'info': {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: `${guild.name} - Sistema de Log de membros`,
+            name: `${guild.name} - Sistema de Logs`,
             iconURL: guild.iconURL(),
           })
           .setColor(0x8000ff)
@@ -121,7 +121,7 @@ module.exports = {
 
         switch (selectedoption) {
           case 'liga': {
-            interaction.reply('O sistema de Autorole foi ligado.')
+            interaction.reply('O sistema de logs foi ligado.')
             await guildSchema.findOneAndUpdate(
               { idS: guild.id },
               { $set: { 'logs.status': true } }
@@ -130,7 +130,7 @@ module.exports = {
           }
 
           case 'desliga': {
-            interaction.reply('O sistema de Log de Membros foi desligado.')
+            interaction.reply('O sistema de logs foi desligado.')
             await guildSchema.findOneAndUpdate(
               { idS: guild.id },
               { $set: { 'logs.status': false } }

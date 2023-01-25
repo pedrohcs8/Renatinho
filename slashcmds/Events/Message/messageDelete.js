@@ -7,52 +7,58 @@ module.exports = {
   /**
    *
    * @param {Message} message
-   * @param {Client} client
    */
 
-  async execute(message, client) {
-    guildSchema.findOne(
-      { idS: message.guild.id },
-      async function (err, server) {
-        try {
-          if (message.author.bot) return // caso um bot tenha deletado alguma mensagem ele não vai mandar no canal de LOGS.
-          const guild = message.guild
+  async execute(message) {
+    try {
+      const doc = await guildSchema.findOne({ idS: message.guild.id })
 
-          const UPDATE = new EmbedBuilder()
-            .setAuthor(guild.name, guild.iconURL({ dynamic: true }))
-            .setTitle(`Mensagem Deletada`)
-            .addFields(
-              {
-                name: `Author`,
-                value: `${message.author}`, // pega o author da mensagem
-              },
-              {
-                name: `Conteúdo da Mensagem`,
-                value: `${message.content}`, // pega o contéudo da mensagem
-              },
-              {
-                name: `Canal`,
-                value: `${message.channel}`, // pega o canal que a mensagem foi deletada
-              }
-            )
-            .setThumbnail(
-              message.author.displayAvatarURL({ dynamic: true, size: 2048 })
-            )
-            .setFooter(
-              `${message.author.tag} | ${message.author.id}`,
-              message.author.displayAvatarURL({ dynamic: true, size: 2048 })
-            )
-            .setTimestamp()
-            .setColor(process.env.EMBED_COLOR)
-
-          if (server.logs.status) {
-            const channel = guild.channels.cache.get(server.logs.channel)
-            channel.send({ embeds: [UPDATE] })
-          }
-        } catch (err) {
-          console.log(`EVENTO: MessageDelete`)
-        }
+      if (message.author.bot) {
+        return
       }
-    )
+
+      const logEmbed = new EmbedBuilder()
+        .setColor(process.env.EMBED_COLOR)
+        .setAuthor({
+          name: message.guild.name,
+          iconURL: message.guild.iconURL(),
+        })
+        .setTitle('Mensagem deletada')
+        .addFields(
+          {
+            name: 'Autor',
+            value: `${message.author}`,
+          },
+          {
+            name: 'Conteúdo da mensagem',
+            value: `${message.content ? message.content : 'Nada'}`,
+          },
+          {
+            name: 'Canal',
+            value: `${message.channel}`,
+          }
+        )
+        .setThumbnail(message.author.displayAvatarURL({}))
+        .setFooter({
+          text: `${message.author.tag} | ${message.author.id}`,
+          iconURL: message.author.displayAvatarURL({}),
+        })
+        .setTimestamp()
+
+      if (message.attachments.size >= 1) {
+        logEmbed.addFields({
+          name: 'Anexos',
+          value: `${message.attachments.map((a) => a.url)}`,
+          inline: true,
+        })
+      }
+
+      if (doc.logs.status) {
+        const channel = message.guild.channels.cache.get(doc.logs.channel)
+        channel.send({ embeds: [logEmbed] })
+      }
+    } catch (err) {
+      console.log(err)
+    }
   },
 }

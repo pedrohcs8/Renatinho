@@ -20,4 +20,5 @@ module.exports = {
   Balance: '<:HouseBallance:868887169522102282>',
   Verified_Bot: '<:BotVerificado:868890314776141834>',
   Server_Owner: '<:DonoDeServer:868910886159523840>',
+  ActiveDeveloper: '<:ActiveDeveloper:1067882386399973569>',
 }
