@@ -12,6 +12,11 @@ const profileSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  bank: { type: Number, default: 0 },
+  buyingHistory: {
+    type: Array,
+    default: [],
+  },
   name: { type: String, default: 'null' },
   Exp: {
     xp: { type: Number, default: 1 },
@@ -70,7 +75,6 @@ const profileSchema = mongoose.Schema({
     createFactory: { type: Boolean, default: false },
     lastWork: { type: Number, default: 0 },
   },
-  bank: { type: Number, default: 0 },
   steal: {
     time: { type: Number, default: 0 },
     protection: { type: Number, default: 0 },

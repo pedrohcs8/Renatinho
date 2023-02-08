@@ -152,6 +152,22 @@ module.exports = {
         )
         await profileSchema.findOneAndUpdate({ userId: mention.id }, shopObject)
 
+        let date = new Date()
+
+        //Coloca no historico de compras
+        await profileSchema.findOneAndUpdate(
+          { userId: member.id },
+          {
+            $push: {
+              buyingHistory: {
+                title: 'Compra de produto',
+                price: productPriceWithMargin,
+                date: date,
+              },
+            },
+          }
+        )
+
         interaction.editReply(
           `Você comprou com sucesso **${size}** item(s) do id **${sellerproducts.id}** por **${productPriceWithMargin}** renatocoins da loja de ${mention}`
         )
@@ -200,6 +216,22 @@ module.exports = {
 
         await profileSchema.findOneAndUpdate({ userId: mention.id }, shopObject)
 
+        let date = new Date()
+
+        //Coloca no historico de compras
+        await profileSchema.findOneAndUpdate(
+          { userId: member.id },
+          {
+            $push: {
+              buyingHistory: {
+                title: 'Compra de produto',
+                price: productPriceWithMargin,
+                date: date,
+              },
+            },
+          }
+        )
+
         interaction.editReply(
           `Você comprou com sucesso **${size}** item(s) do id **${sellerproducts.id}** por **${sellerproducts.price}** renatocoins da loja de ${mention}`
         )
@@ -209,5 +241,6 @@ module.exports = {
 }
 
 function sellingPrice(costPrice) {
-  return costPrice + costPrice * 0.2
+  const num = costPrice + costPrice * 0.2
+  return Math.ceil(num)
 }

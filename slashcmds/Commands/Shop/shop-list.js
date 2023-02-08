@@ -57,5 +57,6 @@ module.exports = {
 }
 
 function sellingPrice(costPrice) {
-  return costPrice + costPrice * 0.2
+  const num = costPrice + costPrice * 0.2
+  return Math.ceil(num)
 }

@@ -44,7 +44,9 @@ module.exports = {
         .addNumberOption((options) =>
           options
             .setName('preço')
-            .setDescription('O preço do produto')
+            .setDescription(
+              'O preço do produto (Esse preço será 20% maior para o consumidor)'
+            )
             .setRequired(true)
         )
         .addStringOption((options) =>
@@ -452,5 +454,6 @@ module.exports = {
 }
 
 function sellingPrice(costPrice) {
-  return costPrice + costPrice * 0.2
+  const num = costPrice + costPrice * 0.2
+  return Math.ceil(num)
 }
