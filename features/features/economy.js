@@ -20,8 +20,6 @@ module.exports.addCoins = async (userId, coins) => {
 }
 
 module.exports.addBank = async (userId, coins) => {
-  console.log('Rodando findOneAndUpdate()')
-
   const user = await profileSchema.findOne({ userId: userId })
 
   await profileSchema.findOneAndUpdate(
