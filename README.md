@@ -1,6 +1,6 @@
 Um simples bot criado por pedrohcs8.
 
-Atualmente o bot oficial está sem host.
+Atualmente o bot oficial está com host.
 
 Youtube: https://www.youtube.com/channel/UCOGQK41J8nLNbzmUI5BoUxw
 
