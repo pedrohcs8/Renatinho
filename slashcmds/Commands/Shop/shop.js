@@ -107,6 +107,7 @@ module.exports = {
       if (itensininventoryobj.length) {
         //---------------------- Se houver documento ----------------------
 
+        //Objeto do comprador
         const updateObject = itensininventoryobj.reduce(
           (o, [key]) =>
             Object.assign(o, {
@@ -121,6 +122,7 @@ module.exports = {
           {}
         )
 
+        //Objeto do vendedor
         const shopObject = itensininventoryobj.reduce(
           (o, [key]) =>
             Object.assign(o, {
@@ -135,9 +137,13 @@ module.exports = {
           {}
         )
 
-        //Atualiza os valores nas contas do comprador e do vendedor
-        await economy.addCoins(member.id, sellerproducts.price * size * -1)
-        await economy.addCoins(mention.id, sellerproducts.price * size)
+        const productPriceWithMargin = sellingPrice(sellerproducts.price)
+
+        //Tira o dinheiro da conta do comprador
+        await economy.addCoins(member.id, productPriceWithMargin * size * -1)
+
+        //Adiciona o dinheiro na conta do vendedor
+        await economy.addCoins(mention.id, productPriceWithMargin * size)
 
         //Atualiza os objetos na conta do vendedor e do consumidor
         await profileSchema.findOneAndUpdate(
@@ -147,11 +153,12 @@ module.exports = {
         await profileSchema.findOneAndUpdate({ userId: mention.id }, shopObject)
 
         interaction.editReply(
-          `Você comprou com sucesso **${size}** item(s) do id **${sellerproducts.id}** por **${sellerproducts.price}** renatocoins da loja de ${mention}`
+          `Você comprou com sucesso **${size}** item(s) do id **${sellerproducts.id}** por **${productPriceWithMargin}** renatocoins da loja de ${mention}`
         )
 
         //---------------------- Fim do IF ----------------------
       } else {
+        //Objeto do comprador
         const updateObject = {
           name: sellerproducts.name,
           size: size,
@@ -162,6 +169,7 @@ module.exports = {
           shopName: seller.customshop.name,
         }
 
+        //Objeto do vendedor
         const shopObject = itensininventoryobj.reduce(
           (o, [key]) =>
             Object.assign(o, {
@@ -176,15 +184,20 @@ module.exports = {
           {}
         )
 
-        //Atualiza os valores na conta do vendedor e do consumidor
-        await economy.addCoins(member.id, sellerproducts.price * size * -1)
-        await economy.addCoins(mention.id, sellerproducts.price * size)
+        const productPriceWithMargin = sellingPrice(sellerproducts.price)
+
+        //Tira o dinheiro da conta do comprador
+        await economy.addCoins(member.id, productPriceWithMargin * size * -1)
+
+        //Bota o dinheiro na conta do vendedor
+        await economy.addCoins(mention.id, productPriceWithMargin * size)
 
         // Atualiza os itens nas contas do vendedor e do consumidor
         await profileSchema.findOneAndUpdate(
           { userId: member.id },
           { $push: { customshopitens: updateObject } }
         )
+
         await profileSchema.findOneAndUpdate({ userId: mention.id }, shopObject)
 
         interaction.editReply(
@@ -193,4 +206,8 @@ module.exports = {
       }
     }
   },
+}
+
+function sellingPrice(costPrice) {
+  return costPrice + costPrice * 0.2
 }

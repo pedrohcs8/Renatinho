@@ -62,6 +62,7 @@ module.exports = {
       const server = await guildSchema.findOne({
         idS: message.guild.id,
       })
+
       let user = await profileSchema.findOne({
         userId: message.author.id,
       })
@@ -74,11 +75,12 @@ module.exports = {
         })
 
       //Cria o documento se o Servidor não estiver cadastrado
-      if (!server)
+      if (!server) {
         await guildSchema.create({
           idS: message.guild.id,
           name: message.guild.name,
         })
+      }
 
       // Sistema de XP
       if (!message.author.bot) {

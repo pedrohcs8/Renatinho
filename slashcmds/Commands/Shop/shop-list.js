@@ -45,11 +45,17 @@ module.exports = {
           .filter((x) => x != true)
           .map(
             (x) =>
-              `> ID: **${x.id}** ( Nome: **${x.emoji} ${x.name}** )\n> Valor: **\`${x.price}\`**`
+              `> ID: **${x.id}** ( Nome: **${x.emoji} ${
+                x.name
+              }** )\n> Valor: **\`${sellingPrice(x.price)}\`**`
           )
           .join('\n\n')}`
       )
       return
     }
   },
+}
+
+function sellingPrice(costPrice) {
+  return costPrice + costPrice * 0.2
 }

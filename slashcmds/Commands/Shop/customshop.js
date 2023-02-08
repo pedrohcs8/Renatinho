@@ -371,13 +371,16 @@ module.exports = {
                 ([_, value]) =>
                   `${value.emoji} **${
                     value.name.charAt(0).toUpperCase() + value.name.slice(1)
-                  }** - ID: \`${value.id}\`\nPreço: **${Utils.toAbbrev(
-                    value.price
+                  }** - ID: \`${value.id}\`\nPreço: **${sellingPrice(
+                    parseInt(value.price)
                   )}** - Quantia em estoque: **\`${value.size}\`**`
               )
               .join('\n\n')
           )
           .setColor(`${process.env.EMBED_COLOR}`)
+          .setFooter({
+            text: 'Todos os seus produtos são vendidos com uma taxa de 20% de lucro',
+          })
 
         interaction.editReply({ embeds: [EMBED] })
         break
@@ -446,4 +449,8 @@ module.exports = {
         break
     }
   },
+}
+
+function sellingPrice(costPrice) {
+  return costPrice + costPrice * 0.2
 }
