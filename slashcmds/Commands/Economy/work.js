@@ -18,7 +18,7 @@ module.exports = {
     .addSubcommand((options) =>
       options
         .setName('name')
-        .setDescription('Informações do seu trabalho')
+        .setDescription('Troque o nome da sua empresa')
         .addStringOption((options) =>
           options
             .setName('nome')
