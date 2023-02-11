@@ -311,7 +311,7 @@ module.exports = {
         })
 
         collector.on('collect', async (x) => {
-          if (x.user.id == member.id) {
+          if (x.user.id == user.id) {
             collect = x
 
             switch (x.customId) {
