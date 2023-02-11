@@ -202,12 +202,6 @@ module.exports = {
           )
         }
 
-        if (!doc.factory.createFactory) {
-          return interaction.reply(
-            `${member}, somente o Dono da fábrica pode demitir alguém.`
-          )
-        }
-
         const user = options.getUser('pessoa')
 
         //Se a pessoa pedir demissão
@@ -231,6 +225,12 @@ module.exports = {
           )
           return
         } else {
+          if (!doc.factory.createFactory) {
+            return interaction.reply(
+              `${member}, somente o Dono da fábrica pode demitir alguém.`
+            )
+          }
+
           if (ownerDoc.factory.employers.some((x) => x != user.id)) {
             interaction.reply('Este usuário não está em sua Fábrica.')
             return
@@ -286,7 +286,7 @@ module.exports = {
 
         const yesButton = new ButtonBuilder()
           .setCustomId('yes')
-          .setLabel('Enviar')
+          .setLabel('Aceita')
           .setStyle(ButtonStyle.Success)
           .setDisabled(false)
 
@@ -298,7 +298,7 @@ module.exports = {
 
         row.addComponents([yesButton, noButton])
 
-        const msg = await interaction.editReply({
+        const msg = await interaction.reply({
           content: `${user}, o(a) ${member} está tentando lhe contratar, aceitas?`,
           components: [row],
         })
@@ -316,7 +316,9 @@ module.exports = {
 
             switch (x.customId) {
               case 'yes': {
-                interaction.reply(`Você contratou com sucesso o(a) ${user}`)
+                interaction.channel.send(
+                  `Você contratou com sucesso o(a) ${user}`
+                )
 
                 await profileSchema.findOneAndUpdate(
                   {
@@ -335,14 +337,15 @@ module.exports = {
                     },
                   }
                 )
-                msg.delete()
+                interaction.deleteReply()
                 collector.stop()
                 break
               }
               case 'no': {
-                interaction.reply(`O(a) ${user} recusou o pedido.`)
-                msg.delete()
+                interaction.channel.send(`O(a) ${user} recusou o pedido.`)
+                interaction.deleteReply()
                 collector.stop()
+                break
               }
             }
           }
@@ -352,6 +355,8 @@ module.exports = {
           if (collect) return
           //   x.update({ components: [] })
         })
+
+        break
       }
 
       case 'aprimorar': {
@@ -389,7 +394,7 @@ module.exports = {
           }
         )
 
-        return
+        break
       }
 
       case 'criar': {
@@ -421,6 +426,8 @@ module.exports = {
             },
           }
         )
+
+        break
       }
     }
   },
