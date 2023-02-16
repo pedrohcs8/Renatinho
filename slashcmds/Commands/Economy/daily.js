@@ -3,7 +3,7 @@ const {
   ChatInputCommandInteraction,
 } = require('discord.js')
 const dailyRewardsSchema = require('../../../schemas/daily-rewards-schema')
-const economy = require('@features/economy')
+const economy = require('../../../features/features/economy')
 
 let claimedCache = []
 
@@ -64,7 +64,7 @@ module.exports = {
 
     claimedCache.push(member.id)
 
-    await economy.addCoins(userId, coins)
+    await economy.addBank(userId, coins)
 
     interaction.editReply(`Você pegou sua recompensa diária!`)
   },

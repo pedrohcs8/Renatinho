@@ -153,7 +153,7 @@ module.exports = {
               { userId: member.id },
               {
                 $set: {
-                  coins: userData.coins + coins,
+                  bank: userData.bank + coins,
                   'work.cooldown': Date.now(),
                   'work.exp': userData.work.exp + xp,
                 },

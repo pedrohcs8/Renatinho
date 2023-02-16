@@ -165,7 +165,10 @@ module.exports = {
         let cooldown = 2.88e7 - (Date.now() - doc.factory.lastWork)
 
         let XP = this.generateRandomNumber(10, 500)
-        let COINS = this.generateRandomNumber(1000, 10000) * doc.factory.level
+        let COINS =
+          this.generateRandomNumber(1000, 10000) *
+          doc.factory.level *
+          doc.factory.employers.length
 
         if (cooldown > 0) {
           interaction.reply(
