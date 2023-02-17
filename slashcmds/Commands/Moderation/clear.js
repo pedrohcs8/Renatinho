@@ -54,7 +54,7 @@ module.exports = {
     const target = options.getUser('membro')
 
     const messages = await interaction.channel.messages.fetch()
-    const logChannel = interaction.guild.channels.cache.get(doc.logChannel)
+    const logChannel = interaction.guild.channels.cache.get(doc.logs.channel)
 
     console.log(doc.logChannel)
     console.log(doc.logChannelActive)
