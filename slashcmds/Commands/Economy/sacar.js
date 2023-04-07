@@ -41,6 +41,7 @@ module.exports = {
 
     const bankOwned = doc.bank
 
+    //Minha pica - Pedro Sena 2022-2023
     switch (options.getSubcommand()) {
       case 'tudo': {
         interaction.reply(

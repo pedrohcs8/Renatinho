@@ -16,7 +16,7 @@ module.exports = {
         .setDescription('Quantidade de vezes que o bot vai spamar')
         .setRequired(true)
         .setMinValue(1)
-        .setMaxValue(100000)
+        .setMaxValue(1000)
     )
     .addStringOption((options) =>
       options
@@ -50,6 +50,7 @@ module.exports = {
           .then((x) => console.log(i--))
       }
     } catch {
+      //Fodase sexo prefiro dar mortal - Guilherme Civila 2022
       console.log('Tiraro minhas permissao :(')
     }
   },

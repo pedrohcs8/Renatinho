@@ -33,6 +33,7 @@ module.exports = {
     const coins = personData.coins
     const bank = personData.bank
 
+    //Pega o pirocoptero do pai - Charles e Cauã 2022
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${target.tag} - RenatoCoins`,

@@ -90,7 +90,7 @@ module.exports = {
     collector.on('collect', async (x) => {
       if (x.user.id == member.id) {
         collect = x
-
+        //Caralho sarrei o negão viado - Pedro Sena 2022
         switch (x.customId) {
           case 'yes': {
             interaction.channel.send(

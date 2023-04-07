@@ -37,6 +37,7 @@ module.exports = {
       .sort((x, f) => f.coins - x.coins)
       .slice(0, 10)
 
+    //E esse pinto duro aqui yudi? - Cauã 06/04/2023
     const TOP = new EmbedBuilder()
       .setAuthor({ name: `Ranking Monetário` })
       .setDescription(
