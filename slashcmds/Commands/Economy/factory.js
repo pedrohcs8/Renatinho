@@ -338,8 +338,14 @@ module.exports = {
                       'factory.hasFactory': true,
                       'factory.lastWork': 0,
                     },
+                    $push: { 'factory.employers': user.id },
                   }
                 )
+                await profileSchema.findOneAndUpdate(
+                  { userId: user.id },
+                  { $push: { 'factory.employers': member.id } }
+                )
+
                 interaction.deleteReply()
                 collector.stop()
                 break

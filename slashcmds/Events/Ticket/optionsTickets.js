@@ -21,10 +21,11 @@ module.exports = {
 
     const ticketSetup = await ticketData.findOne({ guildId: guild.id })
     if (!ticketSetup) {
-      return interaction.reply({
-        content:
-          'O sistema dos tickets não foi configurado ou está desatualizado',
-      })
+      return
+      // return interaction.reply({
+      //   content:
+      //     'O sistema dos tickets não foi configurado ou está desatualizado',
+      // })
     }
 
     if (!['close', 'lock', 'unlock', 'claim'].includes(customId)) {
