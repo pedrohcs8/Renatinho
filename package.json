@@ -41,7 +41,7 @@
     "dotenv": "^16.0.0",
     "ffmpeg-static": "^4.4.1",
     "fs": "^0.0.1-security",
-    "glob": "^7.2.3",
+    "glob": "^9.3.4",
     "i": "^0.3.7",
     "image-downloader": "^4.1.0",
     "jquery": "^3.6.1",

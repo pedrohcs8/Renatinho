@@ -1,36 +1,37 @@
+const { Client } = require('discord.js')
+const { loadFiles } = require('../Functions/fileLoader')
+
+/**
+ *
+ * @param {Client} client
+ */
+
 async function loadEvents(client) {
-  const { loadFiles } = require('../Functions/fileLoader')
-  const ascii = require('ascii-table')
-  const table = new ascii().setHeading('Events', 'Status')
+  console.time('Eventos carregados com sucesso')
 
-  await client.events.clear()
+  client.events = new Map()
+  const events = new Array()
 
-  const Files = await loadFiles('slashcmds/Events')
+  const files = await loadFiles('slashcmds/Events')
 
-  Files.forEach((file) => {
-    const event = require(file)
+  for (const file of files) {
+    try {
+      const event = require(file)
+      const execute = (...args) => event.execute(...args, client)
+      const target = event.rest ? client.rest : client
 
-    const execute = (...args) => event.execute(...args, client)
-    client.events.set(event.name, execute)
+      target[event.once ? 'once' : 'on'](event.name, execute)
+      client.events.set(event.name, execute)
 
-    if (event.rest) {
-      if (event.once) {
-        client.rest.once(event.name, execute)
-      } else {
-        client.rest.on(event.name, execute)
-      }
-    } else {
-      if (event.once) {
-        client.once(event.name, execute)
-      } else {
-        client.on(event.name, execute)
-      }
+      events.push({ Evento: event.name, Status: '✅' })
+    } catch (error) {
+      events.push({ Evento: file.split('/').pop().slice(0, -3), Status: '⛔' })
     }
+  }
 
-    table.addRow(event.name, '✅')
-  })
-
-  return console.log(table.toString(), '\nLoaded Events')
+  console.table(events, ['Evento', 'Status'])
+  console.info('\n\x1b[36m%s\x1b[0m', 'Carreguei os eventos.')
+  console.timeEnd('Eventos carregados com sucesso')
 }
 
 module.exports = { loadEvents }
