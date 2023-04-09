@@ -21,4 +21,12 @@ module.exports = {
   Verified_Bot: '<:BotVerificado:868890314776141834>',
   Server_Owner: '<:DonoDeServer:868910886159523840>',
   ActiveDeveloper: '<:ActiveDeveloper:1067882386399973569>',
+  BugHunterLevel1: '<:discordbughunter1:1094707558398316644> ',
+  BugHunterLevel2: '<:discordbughunter2:1094707561095237743>',
+  EarlySupporter: '<:discordearlysupporter:1094708227498848346>',
+  CertifiedModerator: '<:discordmod:1094709178683117639>',
+  Partner: '<:discordpartner:1094709180377600100>',
+  Staff: '<:discordstaff:1094708502963945542>',
+  HypesquadIcon: '<:hypesquadevents:1094710896099610645>',
+  Booster: '<:discordboost:1094720419442987139>',
 }

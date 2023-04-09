@@ -187,8 +187,8 @@ module.exports = {
       switch (options.getSubcommand()) {
         case 'play': {
           client.distube.play(voiceChannel, options.getString('nome-link'), {
-            textChannel: channel,
             member: member,
+            textChannel: channel,
           })
 
           return interaction.reply({ content: '🎶 Música recebida' })
