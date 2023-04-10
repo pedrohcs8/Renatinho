@@ -15,7 +15,7 @@ module.exports = {
     }
 
     if (message.mentions.members.size) {
-      const embed = new EmbedBuilder().setColor('DARK_PURPLE')
+      const embed = new EmbedBuilder().setColor(process.env.EMBED_COLOR)
       message.mentions.members.forEach((m) => {
         db.findOne(
           { guildId: message.guild.id, userId: m.id },
