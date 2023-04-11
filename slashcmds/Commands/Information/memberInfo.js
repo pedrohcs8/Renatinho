@@ -121,7 +121,9 @@ module.exports = {
         ])
 
       interaction.editReply({ embeds: [embed], files: [imageAttachment] })
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 }
 
