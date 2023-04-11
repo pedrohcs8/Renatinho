@@ -63,7 +63,10 @@ module.exports = {
         .map((role) => role)
         .slice(0, 3)
 
-      const userBadges = member.user.flags.toArray()
+      let userBadges = member.user.flags.toArray()
+      userBadges = userBadges.slice(userBadges.length / 2)
+
+      console.log(userBadges)
 
       const joinTime = parseInt(member.joinedTimestamp / 1000)
       const createdTime = parseInt(member.user.createdTimestamp / 1000)
@@ -72,7 +75,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${member.user.tag} | informações Gerais`,
+          name: `${member.user.tag} | Informações Gerais`,
           iconURL: member.displayAvatarURL(),
         })
         .setColor(process.env.EMBED_COLOR)
@@ -85,7 +88,7 @@ module.exports = {
         .addFields([
           {
             name: 'Badges',
-            value: `${addBadges(userBadges)}`,
+            value: `${addBadges(userBadges).join('')}`,
             inline: true,
           },
           {
@@ -95,7 +98,9 @@ module.exports = {
           },
           {
             name: 'Cargos Mais Importantes',
-            value: `${topRoles.join('').replace(`<@${interaction.guildId}>`)}`,
+            value: `${topRoles
+              .join(', ')
+              .replace(`<@${interaction.guildId}>`)}`,
             inline: false,
           },
           {
@@ -105,7 +110,7 @@ module.exports = {
           },
           {
             name: 'Id do Membro',
-            value: `${member}`,
+            value: `${member.id}`,
             inline: true,
           },
           {
