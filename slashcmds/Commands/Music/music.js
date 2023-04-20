@@ -6,6 +6,18 @@
   EmbedBuilder,
 } = require('discord.js')
 
+const { google } = require('googleapis')
+const fetch = require('isomorphic-unfetch')
+const { getData, getPreview, getTracks, getDetails } =
+  require('spotify-url-info')(fetch)
+
+const ytApiKey = process.env.YOUTUBE_API
+// Create a new YouTube API client
+const youtube = google.youtube({
+  version: 'v3',
+  auth: ytApiKey,
+})
+
 module.exports = {
   subsincluded: true,
   data: new SlashCommandBuilder()
@@ -171,10 +183,12 @@ module.exports = {
   async execute(interaction, client) {
     const { options, member, guild, channel } = interaction
 
+    await interaction.deferReply()
+
     const voiceChannel = member.voice.channel
 
     if (!voiceChannel) {
-      return interaction.reply({
+      return interaction.editReply({
         content:
           'Você precisa estar em um canal de voz para usar os comandos de música',
         ephemeral: true,
@@ -186,26 +200,76 @@ module.exports = {
 
       switch (options.getSubcommand()) {
         case 'play': {
-          client.distube.play(voiceChannel, options.getString('nome-link'), {
-            member: member,
-            textChannel: channel,
-          })
+          const query = options.getString('nome-link')
 
-          return interaction.reply({ content: '🎶 Música recebida' })
+          if (query.includes('youtube.com/playlist')) {
+            const isPublic = await isPlaylistPublic(query)
+
+            if (isPublic) {
+              client.distube.play(voiceChannel, query, {
+                member: member,
+                textChannel: channel,
+              })
+
+              return interaction.editReply({ content: '🎶 Música recebida' })
+            } else {
+              return interaction.editReply({
+                content: '⛔ - A Playlist precisa ser pública',
+              })
+            }
+          } else if (query.includes('open.spotify.com/playlist')) {
+            const playlist = await getTracks(query)
+            const title = (await getPreview(query)).title
+
+            let arrSongs = []
+
+            for (const track of playlist) {
+              const searchResults = await client.distube.search(
+                `${track.name} - ${track.artist.name}`
+              )
+              const song = searchResults[0]
+              arrSongs.push(song)
+            }
+
+            console.log(arrSongs)
+
+            const customplaylist = await client.distube.createCustomPlaylist(
+              arrSongs,
+              {
+                member: member,
+                properties: { name: title },
+                parallel: true,
+              }
+            )
+
+            client.distube.play(voiceChannel, customplaylist, {
+              member: member,
+              textChannel: channel,
+            })
+
+            return interaction.editReply({ content: '🎶 Playlist Recebida' })
+          } else {
+            client.distube.play(voiceChannel, query, {
+              member: member,
+              textChannel: channel,
+            })
+
+            return interaction.editReply({ content: '🎶 Música recebida' })
+          }
         }
 
         case 'volume': {
           const volume = options.getNumber('porcentagem')
 
           if (volume > 100 || volume < 1) {
-            return interaction.reply({
+            return interaction.editReply({
               content: 'Você deve especificar um número entre 1 e 100',
             })
           }
 
           client.distube.setVolume(voiceChannel, volume)
 
-          return interaction.reply({
+          return interaction.editReply({
             content: `📶 O volume foi configurado para: \`${volume}%\``,
           })
         }
@@ -214,7 +278,7 @@ module.exports = {
           const queue = await client.distube.getQueue(voiceChannel)
 
           if (!queue) {
-            return interaction.reply({
+            return interaction.editReply({
               content: '⛔ - Não tem nenhuma música em fila.',
             })
           }
@@ -222,30 +286,30 @@ module.exports = {
           switch (options.getString('opções')) {
             case 'skip': {
               await queue.skip(voiceChannel)
-              return interaction.reply({ content: '⏩ Música skipada.' })
+              return interaction.editReply({ content: '⏩ Música skipada.' })
             }
 
             case 'stop': {
               await queue.stop(voiceChannel)
               await queue.stop(voiceChannel)
-              return interaction.reply({ content: '⏹️ Música parada.' })
+              return interaction.editReply({ content: '⏹️ Música parada.' })
             }
 
             case 'pause': {
               await queue.pause(voiceChannel)
-              return interaction.reply({ content: '⏸️ Música pausada.' })
+              return interaction.editReply({ content: '⏸️ Música pausada.' })
             }
 
             case 'resume': {
               await queue.resume(voiceChannel)
-              return interaction.reply({ content: '▶️ Música despausada.' })
+              return interaction.editReply({ content: '▶️ Música despausada.' })
             }
 
             case 'queue': {
-              return interaction.reply({
+              return interaction.editReply({
                 embeds: [
-                  new MessageEmbed()
-                    .setColor('PURPLE')
+                  new EmbedBuilder()
+                    .setColor(process.env.EMBED_COLOR)
                     .setDescription(
                       `${queue.songs.map(
                         (song, id) =>
@@ -260,12 +324,14 @@ module.exports = {
 
             case 'shuffle': {
               await queue.shuffle(voiceChannel)
-              return interaction.reply({ content: '🔀 A fila foi misturada.' })
+              return interaction.editReply({
+                content: '🔀 A fila foi misturada.',
+              })
             }
 
             case 'autoplay': {
               let mode = await queue.toggleAutoplay(voiceChannel)
-              return interaction.reply({
+              return interaction.editReply({
                 content: `🔃 O modo autoplay foi ${
                   mode ? 'ativado' : 'desativado'
                 }.`,
@@ -274,14 +340,14 @@ module.exports = {
 
             case 'relatedSong': {
               await queue.addRelatedSong(voiceChannel)
-              return interaction.reply({
+              return interaction.editReply({
                 content: '🈁 Uma música relacionada foi adicionada na fila.',
               })
             }
 
             case 'repeatMode': {
               let mode2 = await client.distube.setRepeatMode(queue)
-              return interaction.reply({
+              return interaction.editReply({
                 content: `🔁 O modo loop foi ${(mode2 = mode2
                   ? mode2 === 2
                     ? 'ativado para fila'
@@ -296,7 +362,7 @@ module.exports = {
           const queue = await client.distube.getQueue(voiceChannel)
 
           if (!queue) {
-            return interaction.reply({
+            return interaction.editReply({
               content: '⛔ - Não tem nenhuma música em fila.',
             })
           }
@@ -304,82 +370,82 @@ module.exports = {
           switch (options.getString('efeitos')) {
             case 'nenhum': {
               await queue.filters.clear()
-              return interaction.reply({ content: '📶 Efeitos removidos.' })
+              return interaction.editReply({ content: '📶 Efeitos removidos.' })
             }
 
             case '3d': {
               await queue.filters.add('3d')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'bassboost': {
               await queue.filters.add('bassboost')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'echo': {
               await queue.filters.add('echo')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'karaoke': {
               await queue.filters.add('karaoke')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'nightcore': {
               await queue.filters.add('nightcore')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'vaporwave': {
               await queue.filters.add('vaporwave')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'flanger': {
               await queue.filters.add('flanger')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'gate': {
               await queue.filters.add('gate')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'haas': {
               await queue.filters.add('haas')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'reverse': {
               await queue.filters.add('reverse')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'surround': {
               await queue.filters.add('surround')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'mcompand': {
               await queue.filters.add('mcompand')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'phaser': {
               await queue.filters.add('phaser')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'tremolo': {
               await queue.filters.add('tremolo')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
 
             case 'earwax': {
               await queue.filters.add('earwax')
-              return interaction.reply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({ content: '📶 Efeito aplicado.' })
             }
           }
         }
@@ -389,7 +455,26 @@ module.exports = {
         .setColor('Red')
         .setDescription(`⛔ Erro: ${e}`)
 
-      return interaction.reply({ embeds: [errorEmbed] })
+      return interaction.editReply({ embeds: [errorEmbed] })
     }
   },
+}
+
+async function isPlaylistPublic(playlistUrl) {
+  // Extract the playlist ID from the URL
+  const playlistId = playlistUrl.match(/list=(.*)/)[1]
+
+  try {
+    // Get the playlist details from the YouTube API
+    const playlist = await youtube.playlists.list({
+      part: 'status',
+      id: playlistId,
+    })
+
+    // Check the playlist privacy status
+    return playlist.data.items[0].status.privacyStatus === 'public'
+  } catch (err) {
+    console.error(err)
+    return false
+  }
 }

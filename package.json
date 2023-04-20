@@ -45,8 +45,10 @@
     "ffmpeg-static": "^4.4.1",
     "fs": "^0.0.1-security",
     "glob": "^9.3.4",
+    "googleapis": "^118.0.0",
     "i": "^0.3.7",
     "image-downloader": "^4.1.0",
+    "isomorphic-unfetch": "^4.0.2",
     "jquery": "^3.6.1",
     "js-abbreviation-number": "^1.4.0",
     "klaw": "^4.0.1",
@@ -66,6 +68,8 @@
     "r2": "^2.0.1",
     "rss-parser": "^3.12.0",
     "simple-youtube-api": "^5.2.1",
+    "spotify-url-info": "^3.2.3",
+    "spotify-web-api-node": "^5.0.2",
     "yt-search": "^2.10.3",
     "ytdl-core": "^4.11.0"
   }
