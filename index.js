@@ -34,6 +34,7 @@ const Ascii = require('ascii-table')
 const { DisTube } = require('distube')
 const { SpotifyPlugin } = require('@distube/spotify')
 const { YtDlpPlugin } = require('@distube/yt-dlp')
+const { SoundCloudPlugin } = require('@distube/soundcloud')
 
 const { Guilds, GuildMembers, GuildMessages, MessageContent } =
   GatewayIntentBits
@@ -120,7 +121,13 @@ client.distube = new DisTube(client, {
   leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
   nsfw: true,
-  plugins: [new SpotifyPlugin(), new YtDlpPlugin({ update: false })],
+  plugins: [
+    new SpotifyPlugin({
+      emitEventsAfterFetching: true,
+    }),
+    new SoundCloudPlugin(),
+    new YtDlpPlugin(),
+  ],
 })
 
 module.exports = client
