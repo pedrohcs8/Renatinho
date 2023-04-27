@@ -210,8 +210,6 @@ module.exports = {
                 member: member,
                 textChannel: channel,
               })
-
-              return interaction.editReply({ content: '🎶 Música recebida' })
             } else {
               return interaction.editReply({
                 content: '⛔ - A Playlist precisa ser pública',
@@ -253,9 +251,9 @@ module.exports = {
               member: member,
               textChannel: channel,
             })
-
-            return interaction.editReply({ content: '🎶 Música recebida' })
           }
+
+          return interaction.editReply({ content: '🎶 Música recebida' })
         }
 
         case 'volume': {
