@@ -25,6 +25,7 @@
     "@services": "./services"
   },
   "dependencies": {
+    "@discordjs/voice": "^0.16.0",
     "@distube/soundcloud": "^1.3.2",
     "@distube/spotify": "^1.3.2",
     "@distube/yt-dlp": "^1.1.3",
