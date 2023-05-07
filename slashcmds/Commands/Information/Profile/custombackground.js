@@ -100,7 +100,7 @@ module.exports = {
 
       if (coinsOwned < 20000) {
         return interaction.reply(
-          'Você não tem dinheiro suficiente para comprar esse background. Ele custa 20000 renatocoins'
+          'Você não tem dinheiro suficiente em mãos para comprar esse background. Ele custa 20000 renatocoins'
         )
       }
 

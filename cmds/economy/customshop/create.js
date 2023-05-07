@@ -23,7 +23,9 @@ module.exports = class CreateShop extends Command {
     const coins = 15000
 
     if (data.coins < coins) {
-      message.reply('Você não tem dinheiro para formar sua loja')
+      message.reply(
+        'Você não tem dinheiro suficiente em mãos para formar sua loja'
+      )
       return
     } else if (data.customshop.createShop) {
       message.reply('Você já tem uma loja')

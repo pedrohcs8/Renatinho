@@ -189,7 +189,7 @@ module.exports = {
           find = find[1]
           if (find.price > coinsOwned) {
             interaction.reply(
-              'Você não tem renatocoins suficientes para comprar esse item.'
+              'Você não tem renatocoins suficientes em mãos para comprar esse item.'
             )
             return
           }

@@ -88,7 +88,7 @@ module.exports = {
 
     if (sellerproducts.price * size > coinsOwned) {
       interaction.editReply(
-        'Você não tem dinheiro suficiente para comprar esse item.'
+        'Você não tem dinheiro suficiente em mãos para comprar esse item.'
       )
       return
     } else {

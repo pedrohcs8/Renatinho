@@ -56,12 +56,12 @@ module.exports = class ShopCommand extends Command {
       let find = infoObject[0][1]
       const size = !args[2] ? 1 : parseInt(args[2])
 
-      const doc = await profileSchema.findOne({userId: message.author.id})
+      const doc = await profileSchema.findOne({ userId: message.author.id })
       const coinsOwned = doc.coins
 
       if (find.price * size > coinsOwned) {
         message.reply(
-          'Você não tem dinheiro suficiente para comprar esse item.'
+          'Você não tem dinheiro suficiente em mãos para comprar esse item.'
         )
         return
       } else {
@@ -219,7 +219,9 @@ module.exports = class ShopCommand extends Command {
     console.log(doc.bank)
 
     if (find.price * size > coinsOwned) {
-      message.reply('Você não tem dinheiro suficiente para comprar esse item.')
+      message.reply(
+        'Você não tem dinheiro suficiente em mãos para comprar esse item.'
+      )
       return
     } else {
       const updateObject = infoObject.reduce(

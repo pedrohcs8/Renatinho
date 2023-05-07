@@ -140,7 +140,9 @@ module.exports = {
     switch (options.getSubcommand()) {
       case 'create': {
         if (data.coins < 15000) {
-          interaction.reply('Você não tem dinheiro para formar sua loja')
+          interaction.reply(
+            'Você não tem dinheiro suficiente em mãos para formar sua loja'
+          )
           return
         } else if (data.customshop.createShop) {
           interaction.reply('Você já tem uma loja')
