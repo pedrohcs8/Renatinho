@@ -9,6 +9,7 @@ require('moment-duration-format')
 
 module.exports = {
   subsincluded: true,
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('work')
     .setDescription('Comando para trabalhar na sua empresa')

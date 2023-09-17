@@ -9,6 +9,7 @@ const guildSchema = require('../../../schemas/guild-schema')
 
 module.exports = {
   subsincluded: true,
+  category: 'Moderação',
   data: new SlashCommandBuilder()
     .setName('welcome')
     .setDescription('Configura o sistema de mensagens de boas vindas')

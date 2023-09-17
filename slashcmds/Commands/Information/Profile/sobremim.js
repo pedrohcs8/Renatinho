@@ -5,6 +5,7 @@ const {
 const profileSchema = require('../../../../schemas/profile-schema')
 
 module.exports = {
+  category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('sobremim')
     .setDescription('Comando para mudar o sobremim do seu perfil')

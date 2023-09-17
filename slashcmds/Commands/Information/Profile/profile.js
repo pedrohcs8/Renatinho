@@ -10,6 +10,7 @@ const profileSchema = require('../../../../schemas/profile-schema')
 const economy = require('@features/economy')
 
 module.exports = {
+  category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('profile')
     .setDescription('Comando para mostrar seu perfil'),

@@ -19,6 +19,7 @@ const youtube = google.youtube({
 })
 
 module.exports = {
+  category: 'Música',
   subsincluded: true,
   data: new SlashCommandBuilder()
     .setName('music')

@@ -6,6 +6,7 @@ const profileSchema = require('../../../schemas/profile-schema')
 
 module.exports = {
   subsincluded: true,
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('depositar')
     .setDescription('Comando para depositar seus renatocoins do banco')

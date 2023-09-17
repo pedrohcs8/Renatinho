@@ -8,6 +8,7 @@ const {
 const infractionsSchema = require('../../../schemas/infractions-schema')
 
 module.exports = {
+  category: 'Moderação',
   data: new SlashCommandBuilder()
     .setName('ban')
     .setDescription('Comando para banir membros')

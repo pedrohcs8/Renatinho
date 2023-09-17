@@ -12,6 +12,7 @@ const Util = require('../../../util/Utils')
 
 module.exports = {
   subsincluded: true,
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('pay')
     .setDescription('Transfira dinheiro para alguém.')

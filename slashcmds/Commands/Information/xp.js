@@ -7,6 +7,7 @@ const {
 const profileSchema = require('../../../schemas/profile-schema')
 
 module.exports = {
+  category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('xp')
     .setDescription('Comando para ver o seu nível de xp'),

@@ -8,6 +8,7 @@ const profileSchema = require('../../../schemas/profile-schema')
 const buttonPages = require('../../../util/pagination')
 
 module.exports = {
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('history')
     .setDescription('Mostra seu historico de pagamentos'),

@@ -9,6 +9,7 @@ const Emojis = require('../../../util/Emojis')
 const { profileImage } = require('discord-arts')
 
 module.exports = {
+  category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('memberinfo')
     .setDescription('Olhe as suas informações do seu perfil')

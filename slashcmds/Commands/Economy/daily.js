@@ -14,6 +14,7 @@ const clearCache = () => {
 clearCache()
 
 module.exports = {
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('daily')
     .setDescription('Resgate sua recompensa diária'),

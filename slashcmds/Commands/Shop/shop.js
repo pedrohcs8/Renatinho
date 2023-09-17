@@ -6,6 +6,7 @@ const profileSchema = require('../../../schemas/profile-schema')
 const economy = require('../../../features/features/economy')
 
 module.exports = {
+  category: 'Economia',
   subsincluded: true,
   data: new SlashCommandBuilder()
     .setName('shop')
@@ -60,6 +61,10 @@ module.exports = {
 
     const sellerproductsobj = selleritens.filter(([, x]) => x.id == id)
 
+    if (sellerproductsobj.length < 1) {
+      return interaction.editReply('Esta pessoa não tem itens para vender')
+    }
+
     let sellerproducts = sellerproductsobj[0][1]
 
     //---------------------- Objeto dos Itens na conta da pessoa ----------------------
@@ -103,6 +108,8 @@ module.exports = {
         )
         return
       }
+
+      console.log(itensininventoryobj.length)
 
       if (itensininventoryobj.length) {
         //---------------------- Se houver documento ----------------------
@@ -233,7 +240,7 @@ module.exports = {
         )
 
         interaction.editReply(
-          `Você comprou com sucesso **${size}** item(s) do id **${sellerproducts.id}** por **${sellerproducts.price}** renatocoins da loja de ${mention}`
+          `Você comprou com sucesso **${size}** item(s) do id **${sellerproducts.id}** por **${productPriceWithMargin}** renatocoins da loja de ${mention}`
         )
       }
     }

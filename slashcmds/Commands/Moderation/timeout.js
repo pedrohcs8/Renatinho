@@ -9,6 +9,7 @@ const database = require('../../../schemas/infractions-schema')
 const ms = require('ms')
 
 module.exports = {
+  category: 'Moderação',
   data: new SlashCommandBuilder()
     .setName('timeout')
     .setDescription('Bota um membro em timeout.')

@@ -1,3 +1,6 @@
+let commandsArray = []
+let helpArray = []
+
 async function loadCommands(client) {
   const { loadFiles } = require('../Functions/fileLoader')
   const ascii = require('ascii-table')
@@ -6,8 +9,6 @@ async function loadCommands(client) {
 
   await client.slashcommands.clear()
   await client.slashsub.clear()
-
-  let commandsArray = []
 
   const Files = await loadFiles('slashcmds/Commands')
 
@@ -18,6 +19,12 @@ async function loadCommands(client) {
       return client.slashsub.set(command.subCommand, command)
     }
 
+    helpArray.push({
+      name: command.data.name,
+      category: !command.category ? 'Nenhuma' : command.category,
+      description: command.data.description,
+    })
+
     client.slashcommands.set(command.data.name, command)
 
     commandsArray.push(command.data.toJSON())
@@ -27,7 +34,9 @@ async function loadCommands(client) {
 
   client.application.commands.set(commandsArray)
 
+  console.log(helpArray)
+
   return console.log(table.toString(), '\nComandos Carregados.')
 }
 
-module.exports = { loadCommands }
+module.exports = { loadCommands, helpArray }
