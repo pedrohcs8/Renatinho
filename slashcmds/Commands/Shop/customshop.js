@@ -10,6 +10,7 @@ const Utils = require('../../../util/Utils')
 const { abbreviateNumber } = require('js-abbreviation-number')
 
 module.exports = {
+  category: 'Economia',
   subsincluded: true,
   data: new SlashCommandBuilder()
     .setName('customshop')

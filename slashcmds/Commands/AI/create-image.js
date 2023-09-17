@@ -7,6 +7,7 @@ const { Configuration, OpenAIApi } = require('openai')
 const openai = require('openai')
 
 module.exports = {
+  category: 'AI',
   data: new SlashCommandBuilder()
     .setName('create-image')
     .setDescription('Crie uma imagem com inteligência artificial!')

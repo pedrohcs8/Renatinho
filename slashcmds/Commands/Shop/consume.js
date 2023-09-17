@@ -9,6 +9,7 @@ const profileSchema = require('../../../schemas/profile-schema')
 
 module.exports = {
   memberId: '',
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('consume')
     .setDescription('Comando para consumir os itens do seu inventário'),
@@ -27,6 +28,12 @@ module.exports = {
 
     let itensMenu = []
 
+    console.log(personData.customshopitens.length)
+
+    if (personData.customshopitens.length <= 0) {
+      return interaction.reply({ content: 'Você não tem itens pra consumir' })
+    }
+
     personData.customshopitens.forEach((item) => {
       const obj = {
         name: item.name,
@@ -42,10 +49,14 @@ module.exports = {
       itensMenu.push(obj)
     })
 
+    if (itensMenu.length <= 0) {
+      return interaction.reply({ content: 'Você não tem itens pra consumir' })
+    }
+
     const row = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId('select')
-        .setPlaceholder('Nothing selected')
+        .setCustomId('consume_command')
+        .setPlaceholder('Selecione um Item')
         .setMaxValues(1)
         .setMinValues(1)
         .addOptions(

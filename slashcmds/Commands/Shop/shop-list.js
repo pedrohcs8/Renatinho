@@ -6,6 +6,7 @@ const {
 const profileSchema = require('../../../schemas/profile-schema')
 
 module.exports = {
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('shop-list')
     .setDescription('Mostra os itens na loja da pessoa')

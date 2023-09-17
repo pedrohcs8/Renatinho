@@ -56,7 +56,7 @@ module.exports = class ShopCommand extends Command {
       let find = infoObject[0][1]
       const size = !args[2] ? 1 : parseInt(args[2])
 
-      const doc = await profileSchema.findOne({userId: message.author.id})
+      const doc = await profileSchema.findOne({ userId: message.author.id })
       const coinsOwned = doc.coins
 
       if (find.price * size > coinsOwned) {

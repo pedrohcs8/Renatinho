@@ -8,6 +8,7 @@ const profileSchema = require('../../../schemas/profile-schema')
 const Utils = require('../../../util/Utils')
 
 module.exports = {
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('rankcoins')
     .setDescription('Comando para olhar o rank de renatocoins.'),

@@ -5,6 +5,7 @@ const {
 } = require('discord.js')
 
 module.exports = {
+  category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('avatar')
     .setDescription('Comando para mandar a sua foto de perfil')

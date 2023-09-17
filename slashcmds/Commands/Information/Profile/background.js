@@ -10,6 +10,7 @@ const economy = require('@features/economy')
 
 module.exports = {
   subsincluded: true,
+  category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('background')
     .setDescription('Troque o background do seu perfil aqui')

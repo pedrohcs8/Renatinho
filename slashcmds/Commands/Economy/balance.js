@@ -9,6 +9,7 @@ const Utils = require('../../../util/Utils')
 
 module.exports = {
   subsincluded: true,
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('balance')
     .setDescription('Mostra o dinheiro que você tem na sua conta')
@@ -36,7 +37,7 @@ module.exports = {
     //Pega o pirocoptero do pai - Charles e Cauã 2022
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${target.tag} - RenatoCoins`,
+        name: `${target.username} - RenatoCoins`,
         iconURL: target.displayAvatarURL({ dynamic: true }),
       })
       .addFields(

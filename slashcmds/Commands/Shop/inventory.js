@@ -7,6 +7,7 @@ const profileSchema = require('../../../schemas/profile-schema')
 const Utils = require('../../../util/Utils')
 
 module.exports = {
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('inventory')
     .setDescription('Veja os itens no seu inventário'),
@@ -21,6 +22,18 @@ module.exports = {
 
     const personData = await profileSchema.findOne({ userId: member.id })
     let ownerId
+
+    if (personData.customshopitens.length <= 0) {
+      const NoItemEmbed = new EmbedBuilder()
+        .setColor(`${process.env.EMBED_COLOR}`)
+        .setAuthor({ name: `${member.user.tag} - Itens` })
+        .addFields({
+          name: `**Itens comprados:**\n\n`,
+          value: `Nenhum`,
+        })
+
+      return interaction.reply({ embeds: [NoItemEmbed] })
+    }
 
     const products = personData.customshopitens
       .sort((a, b) => b.price - a.price)

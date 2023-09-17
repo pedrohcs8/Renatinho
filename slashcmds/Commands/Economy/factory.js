@@ -15,6 +15,7 @@ require('moment-duration-format')
 
 module.exports = {
   subsincluded: true,
+  category: 'Economia',
   data: new SlashCommandBuilder()
     .setName('factory')
     .setDescription('Comandos relacionados ao sistema de fábrica')

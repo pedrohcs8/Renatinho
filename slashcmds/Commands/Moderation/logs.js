@@ -10,6 +10,7 @@ const guildSchema = require('../../../schemas/guild-schema')
 
 module.exports = {
   subsincluded: true,
+  category: 'Moderação',
   data: new SlashCommandBuilder()
     .setName('logs')
     .setDescription('Configure o sistema de logs no seu servidor')
