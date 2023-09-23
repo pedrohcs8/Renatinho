@@ -228,22 +228,19 @@ client.on('ready', async () => {
   await mongo()
 
   //Status custom aleatório
-  // setInterval(() => {
-  //   const statuses = [
-  //     `Trabalhando no Surpice`,
-  //     `Criado por pedrohcs8`,
-  //     `Em desenvolvimento`,
-  //     `Com host :)`,
-  //     `Renato online!`,
-  //     `Meu prefixo padrão é .`,
-  //     `Hospedado em um Raspberry Pi 4!`,
-  //     `Online - Cluster 1-Renato-Host`,
-  //     `Use .help se necessário`,
-  //   ]
+  setInterval(() => {
+    const statuses = [
+      `Criado por pedrohcs8`,
+      `Em desenvolvimento`,
+      `Renato online!`,
+      `Meu prefixo padrão é .`,
+      `Hospedado em um Raspberry Pi 4!`,
+      `Use help se necessário`,
+    ]
 
-  //   const status = statuses[Math.floor(Math.random() * statuses.length)]
-  //   client.user.setActivity(status, { type: 'PLAYING' })
-  // }, 5000)
+    const status = statuses[Math.floor(Math.random() * statuses.length)]
+    client.user.setActivity(status)
+  }, 5000)
 
   // welcome(client)
   // exit(client)
