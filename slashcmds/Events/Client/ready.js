@@ -30,7 +30,7 @@ module.exports = {
       ]
 
       const status = statuses[Math.floor(Math.random() * statuses.length)]
-      client.user.setActivity(status, { type: ActivityType.Playing })
+      client.user.setActivity(status)
     }, 5000)
 
     console.log('Os slashcommands estão prontos!')
