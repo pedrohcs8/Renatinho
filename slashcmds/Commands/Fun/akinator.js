@@ -105,14 +105,15 @@ module.exports = {
                 })
                 .then((collected) => {
                   const isWinner = /yes|y|sim|s/i.test(
-                    collected.first().content
+                    collected.first().content.toLowerCase()
                   )
 
-                  interaction.editReply(
-                    isWinner
+                  interaction.editReply({
+                    content: isWinner
                       ? `Como esperado de mim, acertei mais uma vez`
-                      : `Você ganhou esta partida`
-                  )
+                      : `Você ganhou esta partida`,
+                    embeds: [],
+                  })
                 })
                 .catch(() => null)
             } else {
