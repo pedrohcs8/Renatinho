@@ -123,7 +123,10 @@ client.distube = new DisTube(client, {
   nsfw: true,
   plugins: [
     new SpotifyPlugin({
-      emitEventsAfterFetching: true,
+      api: {
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      },
     }),
     new SoundCloudPlugin(),
     new YtDlpPlugin(),

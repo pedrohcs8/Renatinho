@@ -121,7 +121,7 @@ module.exports = {
                 embeds: [
                   new EmbedBuilder()
                     .setTitle(`${aki.currentStep + 1}ª Pergunta`)
-                    .setThumbnail('https://imgur.com/6MPgU4x')
+                    .setThumbnail('https://i.imgur.com/6MPgU4x.png')
                     .addFields({
                       name: aki.question,
                       value: aki.answers
