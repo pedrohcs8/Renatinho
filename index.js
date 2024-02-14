@@ -122,7 +122,7 @@ client.distube = new DisTube(client, {
   leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
   nsfw: true,
-  youtubeCookie: `${JSON.parse(fs.readFileSync('cookies.json'))}`,
+  youtubeCookie: JSON.parse(fs.readFileSync('cookies.json')),
   plugins: [
     new SpotifyPlugin({
       api: {
