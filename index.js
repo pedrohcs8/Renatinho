@@ -24,6 +24,7 @@ const readdir = promisify(require('fs').readdir)
 const Files = require('./util/Files')
 const c = require('colors')
 const path = require('path')
+const fs = require('fs')
 
 // - Slash Commands
 
@@ -121,6 +122,7 @@ client.distube = new DisTube(client, {
   leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
   nsfw: true,
+  youtubeCookie: JSON.parse(fs.readFileSync('cookies.json')),
   plugins: [
     new SpotifyPlugin({
       api: {
