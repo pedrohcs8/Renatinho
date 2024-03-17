@@ -9,6 +9,3 @@ module.exports = async () => {
     useFindAndModify: false,
   })
 }
-
-//mongodb+srv://LeitorRenato:x7hFbt5hOXVZttw1@cluster0.o1kvn.mongodb.net/renator?retryWrites=true&w=majority
-//mongodb+srv://LeitorRenato:x7hFbt5hOXVZttw1@cluster0.o1kvn.mongodb.net/renator?retryWrites=true&w=majority
