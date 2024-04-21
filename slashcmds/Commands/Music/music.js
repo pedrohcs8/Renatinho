@@ -230,8 +230,6 @@ module.exports = {
               arrSongs.push(song)
             }
 
-            console.log(arrSongs)
-
             const customplaylist = await client.distube.createCustomPlaylist(
               arrSongs,
               {
@@ -248,10 +246,16 @@ module.exports = {
 
             return interaction.editReply({ content: '🎶 Playlist Recebida' })
           } else {
-            client.distube.play(voiceChannel, query, {
-              member: member,
-              textChannel: channel,
-            })
+            const found = await client.distube.search(query)
+
+            if (found.length) {
+              client.distube.play(voiceChannel, query, {
+                member: member,
+                textChannel: channel,
+              })
+            } else {
+              interaction.editReply('⛔ - Música não encontrada')
+            }
           }
 
           return interaction.editReply({ content: '🎶 Música recebida' })
