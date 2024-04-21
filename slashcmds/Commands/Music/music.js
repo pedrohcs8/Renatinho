@@ -245,6 +245,20 @@ module.exports = {
             })
 
             return interaction.editReply({ content: '🎶 Playlist Recebida' })
+          } else if (query.includes('open.spotify.com/')) {
+            //Problematic Query Check
+            try {
+              client.distube.play(voiceChannel, query, {
+                member: member,
+                textChannel: channel,
+              })
+
+              return interaction.editReply({ content: '🎶 Música recebida' })
+            } catch (e) {
+              return interaction.editReply({
+                content: '⛔ - Erro Carregando Musica do Spotify',
+              })
+            }
           } else {
             const found = await client.distube.search(query)
 

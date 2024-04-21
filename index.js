@@ -32,10 +32,14 @@ const { glob } = require('glob')
 const PG = promisify(glob)
 const Ascii = require('ascii-table')
 
+//  - Distube
+
 const { DisTube } = require('distube')
 const { SpotifyPlugin } = require('@distube/spotify')
 // const { YtDlpPlugin } = require('@distube/yt-dlp')
 const { SoundCloudPlugin } = require('@distube/soundcloud')
+
+// -
 
 const { Guilds, GuildMembers, GuildMessages, MessageContent } =
   GatewayIntentBits
