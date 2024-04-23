@@ -260,7 +260,20 @@ module.exports = {
               })
             }
           } else {
-            const found = await client.distube.search(query)
+            let found
+            try {
+              found = await client.distube.search(query)
+            } catch (e) {
+              if (e == 'DisTubeError [NO_RESULT]: No result found') {
+                return interaction.editReply({
+                  content: '⛔ - Não Consegui Encontrar esta música',
+                })
+              } else {
+                return interaction.editReply({
+                  content: '⛔ - Erro procurando esta música',
+                })
+              }
+            }
 
             if (found.length) {
               client.distube.play(voiceChannel, query, {
