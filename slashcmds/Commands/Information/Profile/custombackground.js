@@ -5,7 +5,7 @@ const {
 const profileSchema = require('../../../../schemas/profile-schema')
 const fs = require('fs')
 const download = require('node-image-downloader')
-const economy = require('@features/economy')
+const economy = require('@root/modules/economy')
 
 module.exports = {
   subsincluded: true,

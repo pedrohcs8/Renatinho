@@ -7,7 +7,7 @@ const {
 const { Util } = require('../../../../util')
 const Emojis = require('../../../../util/Emojis')
 const profileSchema = require('../../../../schemas/profile-schema')
-const economy = require('@features/economy')
+const economy = require('@root/modules/economy')
 
 module.exports = {
   category: 'Informação',

@@ -3,9 +3,9 @@ const {
   ChatInputCommandInteraction,
   EmbedBuilder,
 } = require('discord.js')
-const profileSchema = require('../../../schemas/profile-schema')
+const profileSchema = require('@schemas/profile-schema')
 const Emojis = require('@util/Emojis')
-const Utils = require('../../../util/Utils')
+const Utils = require('@util/Utils')
 
 module.exports = {
   subsincluded: true,

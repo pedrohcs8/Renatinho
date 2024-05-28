@@ -3,7 +3,7 @@ const {
   ChatInputCommandInteraction,
 } = require('discord.js')
 const profileSchema = require('../../../schemas/profile-schema')
-const economy = require('../../../features/features/economy')
+const economy = require('@root/modules/economy')
 
 module.exports = {
   category: 'Economia',

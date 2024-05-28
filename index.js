@@ -56,15 +56,10 @@ const command = require('@util/command')
 
 // ----------| Utils |----------
 
-const messageCount = require('@features/message-counter')
-const tempchannel = require('@features/temp-channel')
 const mongo = require('@util/mongo')
 const EventEmitter = require('events')
-const poll = require('@features/poll')
 
 // ----------| Handlers Antigos de Comandos (WOK) |----------
-
-const loadFeatures = require('@root/features/load-features')
 
 // ----------|--|----------
 
@@ -303,13 +298,6 @@ client.on('ready', async () => {
   // ----------| |----------
 
   // ----------| Comandos Antigos (DEPRECATED) |----------
-  loadFeatures(client)
-
-  messageCount(client)
-
-  tempchannel(client)
-
-  poll(client)
 
   // ----------| |----------
 })

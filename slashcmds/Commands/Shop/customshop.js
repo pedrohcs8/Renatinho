@@ -5,8 +5,8 @@ const {
 } = require('discord.js')
 
 const profileSchema = require('../../../schemas/profile-schema')
-const economy = require('../../../features/features/economy')
-const Utils = require('../../../util/Utils')
+const economy = require('@root/modules/economy')
+const Utils = require('@util/Utils')
 const { abbreviateNumber } = require('js-abbreviation-number')
 
 module.exports = {
