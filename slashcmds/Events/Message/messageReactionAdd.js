@@ -12,8 +12,6 @@ module.exports = {
    */
 
   async execute(reaction, user, client) {
-    console.log('penis')
-
     if (!reaction.message.guildId) {
       return
     }

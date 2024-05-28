@@ -57,12 +57,12 @@ module.exports = {
       interaction.editReply({ embeds: [embed] }).then(async (msg) => {
         for (const emoji of emojis) await msg.react(emoji)
 
-        const collector = msg.createReactionCollector(
+        const collector = await msg.createReactionCollector(
           (reaction, user) =>
             emojis.includes(reaction.emoji.name) &&
             user.id === interaction.member.id,
           {
-            time: 60000 * 10,
+            time: 60_000 * 10,
           }
         )
 
