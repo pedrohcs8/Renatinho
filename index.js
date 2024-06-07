@@ -36,13 +36,14 @@ const Ascii = require('ascii-table')
 
 const { DisTube } = require('distube')
 const { SpotifyPlugin } = require('@distube/spotify')
+const { YouTubePlugin } = require('@distube/youtube')
 // const { YtDlpPlugin } = require('@distube/yt-dlp')
-const { SoundCloudPlugin } = require('@distube/soundcloud')
 
 // -
 
 const { Guilds, GuildMembers, GuildMessages, MessageContent } =
   GatewayIntentBits
+
 const { User, Message, GuildMember, ThreadMember } = Partials
 
 const { loadEvents } = require('./slashcmds/Handlers/Events')
@@ -116,12 +117,14 @@ const client = new Main({
   partials: [User, Message, GuildMember, ThreadMember],
 })
 
+const ytPlugin = new YouTubePlugin({
+  cookies: JSON.parse(fs.readFileSync('cookies.json')),
+})
+
 client.distube = new DisTube(client, {
   emitNewSongOnly: true,
-  leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
   nsfw: true,
-  youtubeCookie: JSON.parse(fs.readFileSync('cookies.json')),
   plugins: [
     new SpotifyPlugin({
       api: {
@@ -129,10 +132,12 @@ client.distube = new DisTube(client, {
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       },
     }),
-    new SoundCloudPlugin(),
+    ytPlugin,
     // new YtDlpPlugin(),
   ],
 })
+
+client.ytPlugin = ytPlugin
 
 module.exports = client
 
@@ -198,9 +203,10 @@ client.distube
     )
   )
 
-  .on('finish', (queue) =>
+  .on('finish', (queue) => {
     queue.textChannel.send('📜 | A fila terminou, por isso saí do canal')
-  )
+    queue.voice.leave()
+  })
 
 require('./slashcmds/Systems/giveaway-system')(client)
 

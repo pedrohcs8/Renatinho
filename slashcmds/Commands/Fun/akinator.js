@@ -7,6 +7,9 @@ const Emojis = require('../../../util/Emojis')
 const { Aki, regions } = require('aki-api')
 const akinator = new Set()
 
+//TODO: REMOVE REACTIONS AFTER END OF GAME
+//TODO: USE A DIFFERENT MESSAGE FOR WINNING
+
 module.exports = {
   category: 'Diversão',
   data: new SlashCommandBuilder()
