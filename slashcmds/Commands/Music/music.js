@@ -409,77 +409,107 @@ module.exports = {
 
             case '3d': {
               await queue.filters.add('3d')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``3d`` aplicado.',
+              })
             }
 
             case 'bassboost': {
               await queue.filters.add('bassboost')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``bassboost`` aplicado.',
+              })
             }
 
             case 'echo': {
               await queue.filters.add('echo')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``echo`` aplicado.',
+              })
             }
 
             case 'karaoke': {
               await queue.filters.add('karaoke')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``karaoke`` aplicado.',
+              })
             }
 
             case 'nightcore': {
               await queue.filters.add('nightcore')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``nightcore`` aplicado.',
+              })
             }
 
             case 'vaporwave': {
               await queue.filters.add('vaporwave')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``vaporwave`` aplicado.',
+              })
             }
 
             case 'flanger': {
               await queue.filters.add('flanger')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``flanger`` aplicado.',
+              })
             }
 
             case 'gate': {
               await queue.filters.add('gate')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``gate`` aplicado.',
+              })
             }
 
             case 'haas': {
               await queue.filters.add('haas')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``haas`` aplicado.',
+              })
             }
 
             case 'reverse': {
               await queue.filters.add('reverse')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``reverse`` aplicado.',
+              })
             }
 
             case 'surround': {
               await queue.filters.add('surround')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``surround`` aplicado.',
+              })
             }
 
             case 'mcompand': {
               await queue.filters.add('mcompand')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``mcompand`` aplicado.',
+              })
             }
 
             case 'phaser': {
               await queue.filters.add('phaser')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``phaser`` aplicado.',
+              })
             }
 
             case 'tremolo': {
               await queue.filters.add('tremolo')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``tremolo`` aplicado.',
+              })
             }
 
             case 'earwax': {
               await queue.filters.add('earwax')
-              return interaction.editReply({ content: '📶 Efeito aplicado.' })
+              return interaction.editReply({
+                content: '📶 Efeito ``earwax`` aplicado.',
+              })
             }
           }
         }
