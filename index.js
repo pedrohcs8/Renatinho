@@ -188,11 +188,11 @@ client.distube
     )
   )
 
-  .on('error', (channel, e) => {
-    channel.textChannel.send(
-      ` | An error encountered: ${e.toString().slice(0, 1974)}`
+  .on('error', (error, queue, song) => {
+    queue.textChannel.send(
+      ` | An error encountered: ${error.toString().slice(0, 1974)}`
     )
-    console.error(e)
+    console.error(error)
   })
 
   .on('empty', (queue) =>
