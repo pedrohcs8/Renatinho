@@ -403,113 +403,220 @@ module.exports = {
 
           switch (options.getString('efeitos')) {
             case 'nenhum': {
-              await queue.filters.clear()
-              return interaction.editReply({ content: '📶 Efeitos removidos.' })
+              queue.filters.clear()
+              return await interaction.editReply({
+                content: '📶 Efeitos removidos.',
+              })
             }
 
             case '3d': {
-              await queue.filters.add('3d')
-              return interaction.editReply({
-                content: '📶 Efeito ``3d`` aplicado.',
-              })
+              if (queue.filters.has('3d')) {
+                queue.filters.remove('3d')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``3d`` removido.',
+                })
+              } else {
+                queue.filters.add('3d')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``3d`` aplicado.',
+                })
+              }
             }
 
             case 'bassboost': {
-              await queue.filters.add('bassboost')
-              return interaction.editReply({
-                content: '📶 Efeito ``bassboost`` aplicado.',
-              })
+              if (queue.filters.has('bassboost')) {
+                queue.filters.remove('bassboost')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``bassboost`` removido.',
+                })
+              } else {
+                queue.filters.add('bassboost')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``bassboost`` aplicado.',
+                })
+              }
             }
 
             case 'echo': {
-              await queue.filters.add('echo')
-              return interaction.editReply({
-                content: '📶 Efeito ``echo`` aplicado.',
-              })
+              if (queue.filters.has('echo')) {
+                queue.filters.remove('echo')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``echo`` removido.',
+                })
+              } else {
+                queue.filters.add('echo')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``echo`` aplicado.',
+                })
+              }
             }
 
             case 'karaoke': {
-              await queue.filters.add('karaoke')
-              return interaction.editReply({
-                content: '📶 Efeito ``karaoke`` aplicado.',
-              })
+              if (queue.filters.has('karaoke')) {
+                queue.filters.remove('karaoke')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``karaoke`` removido.',
+                })
+              } else {
+                queue.filters.add('karaoke')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``karaoke`` aplicado.',
+                })
+              }
             }
 
             case 'nightcore': {
-              await queue.filters.add('nightcore')
-              return interaction.editReply({
-                content: '📶 Efeito ``nightcore`` aplicado.',
-              })
+              if (queue.filters.has('nightcore')) {
+                queue.filters.remove('nightcore')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``nightcore`` removido.',
+                })
+              } else {
+                queue.filters.add('nightcore')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``nightcore`` aplicado.',
+                })
+              }
             }
 
             case 'vaporwave': {
-              await queue.filters.add('vaporwave')
-              return interaction.editReply({
-                content: '📶 Efeito ``vaporwave`` aplicado.',
-              })
+              if (queue.filters.has('vaporwave')) {
+                queue.filters.remove('vaporwave')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``vaporwave`` removido.',
+                })
+              } else {
+                queue.filters.add('vaporwave')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``vaporwave`` aplicado.',
+                })
+              }
             }
 
             case 'flanger': {
-              await queue.filters.add('flanger')
-              return interaction.editReply({
-                content: '📶 Efeito ``flanger`` aplicado.',
-              })
+              if (queue.filters.has('flanger')) {
+                queue.filters.remove('flanger')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``flanger`` removido.',
+                })
+              } else {
+                queue.filters.add('flanger')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``flanger`` aplicado.',
+                })
+              }
             }
 
             case 'gate': {
-              await queue.filters.add('gate')
-              return interaction.editReply({
-                content: '📶 Efeito ``gate`` aplicado.',
-              })
+              if (queue.filters.has('gate')) {
+                queue.filters.remove('gate')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``gate`` removido.',
+                })
+              } else {
+                queue.filters.add('gate')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``gate`` aplicado.',
+                })
+              }
             }
 
             case 'haas': {
-              await queue.filters.add('haas')
-              return interaction.editReply({
-                content: '📶 Efeito ``haas`` aplicado.',
-              })
+              if (queue.filters.has('haas')) {
+                queue.filters.remove('haas')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``haas`` removido.',
+                })
+              } else {
+                queue.filters.add('haas')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``haas`` aplicado.',
+                })
+              }
             }
 
             case 'reverse': {
-              await queue.filters.add('reverse')
-              return interaction.editReply({
-                content: '📶 Efeito ``reverse`` aplicado.',
-              })
+              if (queue.filters.has('reverse')) {
+                queue.filters.remove('reverse')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``reverse`` removido.',
+                })
+              } else {
+                queue.filters.add('reverse')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``reverse`` aplicado.',
+                })
+              }
             }
 
             case 'surround': {
-              await queue.filters.add('surround')
-              return interaction.editReply({
-                content: '📶 Efeito ``surround`` aplicado.',
-              })
+              if (queue.filters.has('surround')) {
+                queue.filters.remove('surround')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``surround`` removido.',
+                })
+              } else {
+                queue.filters.add('surround')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``surround`` aplicado.',
+                })
+              }
             }
 
             case 'mcompand': {
-              await queue.filters.add('mcompand')
-              return interaction.editReply({
-                content: '📶 Efeito ``mcompand`` aplicado.',
-              })
+              if (queue.filters.has('mcompand')) {
+                queue.filters.remove('mcompand')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``mcompand`` removido.',
+                })
+              } else {
+                queue.filters.add('mcompand')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``mcompand`` aplicado.',
+                })
+              }
             }
 
             case 'phaser': {
-              await queue.filters.add('phaser')
-              return interaction.editReply({
-                content: '📶 Efeito ``phaser`` aplicado.',
-              })
+              if (queue.filters.has('phaser')) {
+                queue.filters.remove('phaser')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``phaser`` removido.',
+                })
+              } else {
+                queue.filters.add('phaser')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``phaser`` aplicado.',
+                })
+              }
             }
 
             case 'tremolo': {
-              await queue.filters.add('tremolo')
-              return interaction.editReply({
-                content: '📶 Efeito ``tremolo`` aplicado.',
-              })
+              if (queue.filters.has('tremolo')) {
+                queue.filters.remove('tremolo')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``tremolo`` removido.',
+                })
+              } else {
+                queue.filters.add('tremolo')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``tremolo`` aplicado.',
+                })
+              }
             }
 
             case 'earwax': {
-              await queue.filters.add('earwax')
-              return interaction.editReply({
-                content: '📶 Efeito ``earwax`` aplicado.',
-              })
+              if (queue.filters.has('earwax')) {
+                queue.filters.remove('earwax')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``earwax`` removido.',
+                })
+              } else {
+                queue.filters.add('earwax')
+                return await interaction.editReply({
+                  content: '📶 Efeito ``earwax`` aplicado.',
+                })
+              }
             }
           }
         }
