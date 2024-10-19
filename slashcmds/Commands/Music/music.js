@@ -272,6 +272,12 @@ module.exports = {
                   content: '⛔ - Não Consegui Encontrar esta música',
                 })
               } else {
+                if (query.includes('music.youtube.com')) {
+                  return interaction.editReply(
+                    '⛔ - Não aceitamos o Youtube Music!'
+                  )
+                }
+
                 return interaction.editReply({
                   content: '⛔ - Erro procurando esta música, verifique o link',
                 })
