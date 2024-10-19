@@ -197,7 +197,7 @@ module.exports = {
     }
 
     try {
-      console.log(options.getSubcommand())
+      console.log(`Music Command: ${options.getSubcommand()}`)
 
       switch (options.getSubcommand()) {
         case 'play': {
@@ -263,18 +263,17 @@ module.exports = {
             }
           } else {
             let found
+
             try {
-              found = await client.ytPlugin.search(query)
+              found = await client.distube.search(query)
             } catch (e) {
               if (e == 'DisTubeError [NO_RESULT]: No result found') {
                 return interaction.editReply({
                   content: '⛔ - Não Consegui Encontrar esta música',
                 })
               } else {
-                console.log(e)
-
                 return interaction.editReply({
-                  content: '⛔ - Erro procurando esta música',
+                  content: '⛔ - Erro procurando esta música, verifique o link',
                 })
               }
             }
