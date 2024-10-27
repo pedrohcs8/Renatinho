@@ -41,7 +41,7 @@
     "discord-giveaways": "^6.0.1",
     "discord-html-transcripts": "^2.6.1",
     "discord.js": "^14.15.3",
-    "distube": "^5.0.2",
+    "distube": "^5.0.4",
     "dotenv": "^16.0.0",
     "ffmpeg-static": "^4.4.1",
     "fs": "^0.0.1-security",
