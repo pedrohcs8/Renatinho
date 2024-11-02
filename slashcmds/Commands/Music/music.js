@@ -247,6 +247,12 @@ module.exports = {
             return interaction.editReply({ content: '🎶 Playlist Recebida' })
           } else if (query.includes('open.spotify.com/')) {
             //Problematic Query Check
+            if (query.includes("/collection/tracks")) {
+              return interaction.editReply({
+                content: '⛔ - Link Invalido, tente usar o botao de compartilhar',
+              })
+            }
+
             try {
               client.distube.play(voiceChannel, query, {
                 member: member,
@@ -265,7 +271,7 @@ module.exports = {
             let found
 
             try {
-              found = await client.distube.search(query)
+              found = await client.ytPlugin.search(query)
             } catch (e) {
               if (e == 'DisTubeError [NO_RESULT]: No result found') {
                 return interaction.editReply({
