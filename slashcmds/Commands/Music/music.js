@@ -223,7 +223,7 @@ module.exports = {
             let arrSongs = []
 
             for (const track of playlist) {
-              const searchResults = await client.ytPlugin.search(
+              const searchResults = await client.distube.search(
                 `${track.name} - ${track.artist.name}`
               )
               const song = searchResults[0]
@@ -267,22 +267,21 @@ module.exports = {
                 content: '⛔ - Erro Carregando Musica do Spotify',
               })
             }
+          } else if (query.includes('music.youtube.com')) {
+            return interaction.editReply(
+              '⛔ - Não aceitamos o Youtube Music!'
+            )
           } else {
             let found
 
             try {
-              found = await client.ytPlugin.search(query)
+              found = await client.distube.search(query)
             } catch (e) {
               if (e == 'DisTubeError [NO_RESULT]: No result found') {
                 return interaction.editReply({
                   content: '⛔ - Não Consegui Encontrar esta música',
                 })
               } else {
-                if (query.includes('music.youtube.com')) {
-                  return interaction.editReply(
-                    '⛔ - Não aceitamos o Youtube Music!'
-                  )
-                }
 
                 return interaction.editReply({
                   content: '⛔ - Erro procurando esta música, verifique o link',
@@ -295,12 +294,12 @@ module.exports = {
                 member: member,
                 textChannel: channel,
               })
+
+              return interaction.editReply({ content: '🎶 Música recebida' })
             } else {
               interaction.editReply('⛔ - Música não encontrada')
             }
           }
-
-          return interaction.editReply({ content: '🎶 Música recebida' })
         }
 
         case 'volume': {

@@ -137,8 +137,6 @@ client.distube = new DisTube(client, {
   ],
 })
 
-client.ytPlugin = ytPlugin
-
 module.exports = client
 
 const dbIndex = require('./schemas/index')
