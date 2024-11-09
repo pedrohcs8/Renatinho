@@ -34,8 +34,6 @@ async function loadCommands(client) {
 
   client.application.commands.set(commandsArray)
 
-  console.log(helpArray)
-
   return console.log(table.toString(), '\nComandos Carregados.')
 }
 

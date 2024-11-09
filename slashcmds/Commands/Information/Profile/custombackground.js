@@ -5,7 +5,7 @@ const {
 const profileSchema = require('../../../../schemas/profile-schema')
 const fs = require('fs')
 const download = require('node-image-downloader')
-const economy = require('@features/economy')
+const economy = require('@root/modules/economy')
 
 module.exports = {
   subsincluded: true,
@@ -101,7 +101,7 @@ module.exports = {
 
       if (coinsOwned < 20000) {
         return interaction.reply(
-          'Você não tem dinheiro suficiente para comprar esse background. Ele custa 20000 renatocoins'
+          'Você não tem dinheiro suficiente em mãos para comprar esse background. Ele custa 20000 renatocoins'
         )
       }
 

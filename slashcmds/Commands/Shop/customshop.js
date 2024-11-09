@@ -5,8 +5,8 @@ const {
 } = require('discord.js')
 
 const profileSchema = require('../../../schemas/profile-schema')
-const economy = require('../../../features/features/economy')
-const Utils = require('../../../util/Utils')
+const economy = require('@root/modules/economy')
+const Utils = require('@util/Utils')
 const { abbreviateNumber } = require('js-abbreviation-number')
 
 module.exports = {
@@ -141,7 +141,9 @@ module.exports = {
     switch (options.getSubcommand()) {
       case 'create': {
         if (data.coins < 15000) {
-          interaction.reply('Você não tem dinheiro para formar sua loja')
+          interaction.reply(
+            'Você não tem dinheiro suficiente em mãos para formar sua loja'
+          )
           return
         } else if (data.customshop.createShop) {
           interaction.reply('Você já tem uma loja')

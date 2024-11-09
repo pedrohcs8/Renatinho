@@ -7,7 +7,7 @@ const {
   ComponentType,
 } = require('discord.js')
 const profileSchema = require('../../../schemas/profile-schema')
-const economy = require('../../../features/features/economy')
+const economy = require('@root/modules/economy')
 
 const moment = require('moment')
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders')

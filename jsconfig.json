@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "baseUrl": "./",
+    "paths": {
+      "@root/*": ["./*"],
+      "@schemas/*": ["./schemas/*"],
+      "@util/*": ["./util/*"],
+      "@features/*": ["./features/features/*"],
+      "@commands/*": ["./commands/commands/*"],
+      "@commandbase/*": ["./commands/*"],
+      "@structures/*": ["./util/structures/*"],
+      "@src/*": ["./src/*"],
+      "@services/*": ["./services/*"]
+    }
+  }
+}

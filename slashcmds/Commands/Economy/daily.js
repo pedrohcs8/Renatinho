@@ -2,8 +2,8 @@ const {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
 } = require('discord.js')
-const dailyRewardsSchema = require('../../../schemas/daily-rewards-schema')
-const economy = require('../../../features/features/economy')
+const dailyRewardsSchema = require('@schemas/daily-rewards-schema')
+const economy = require('@root/modules/economy')
 
 let claimedCache = []
 

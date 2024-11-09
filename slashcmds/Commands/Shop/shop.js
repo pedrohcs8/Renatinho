@@ -3,7 +3,7 @@ const {
   ChatInputCommandInteraction,
 } = require('discord.js')
 const profileSchema = require('../../../schemas/profile-schema')
-const economy = require('../../../features/features/economy')
+const economy = require('@root/modules/economy')
 
 module.exports = {
   category: 'Economia',
@@ -93,7 +93,7 @@ module.exports = {
 
     if (sellerproducts.price * size > coinsOwned) {
       interaction.editReply(
-        'Você não tem dinheiro suficiente para comprar esse item.'
+        'Você não tem dinheiro suficiente em mãos para comprar esse item.'
       )
       return
     } else {

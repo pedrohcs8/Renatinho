@@ -24,6 +24,7 @@ const readdir = promisify(require('fs').readdir)
 const Files = require('./util/Files')
 const c = require('colors')
 const path = require('path')
+const fs = require('fs')
 
 // - Slash Commands
 
@@ -31,13 +32,18 @@ const { glob } = require('glob')
 const PG = promisify(glob)
 const Ascii = require('ascii-table')
 
+//  - Distube
+
 const { DisTube } = require('distube')
 const { SpotifyPlugin } = require('@distube/spotify')
-const { YtDlpPlugin } = require('@distube/yt-dlp')
-const { SoundCloudPlugin } = require('@distube/soundcloud')
+const { YouTubePlugin } = require('@distube/youtube')
+// const { YtDlpPlugin } = require('@distube/yt-dlp')
+
+// -
 
 const { Guilds, GuildMembers, GuildMessages, MessageContent } =
   GatewayIntentBits
+
 const { User, Message, GuildMember, ThreadMember } = Partials
 
 const { loadEvents } = require('./slashcmds/Handlers/Events')
@@ -51,15 +57,10 @@ const command = require('@util/command')
 
 // ----------| Utils |----------
 
-const messageCount = require('@features/message-counter')
-const tempchannel = require('@features/temp-channel')
 const mongo = require('@util/mongo')
 const EventEmitter = require('events')
-const poll = require('@features/poll')
 
 // ----------| Handlers Antigos de Comandos (WOK) |----------
-
-const loadFeatures = require('@root/features/load-features')
 
 // ----------|--|----------
 
@@ -116,17 +117,23 @@ const client = new Main({
   partials: [User, Message, GuildMember, ThreadMember],
 })
 
+const ytPlugin = new YouTubePlugin({
+  cookies: JSON.parse(fs.readFileSync('cookies.json')),
+})
+
 client.distube = new DisTube(client, {
   emitNewSongOnly: true,
-  leaveOnFinish: true,
   emitAddSongWhenCreatingQueue: false,
   nsfw: true,
   plugins: [
     new SpotifyPlugin({
-      emitEventsAfterFetching: true,
+      api: {
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      },
     }),
-    new SoundCloudPlugin(),
-    new YtDlpPlugin(),
+    ytPlugin,
+    // new YtDlpPlugin(),
   ],
 })
 
@@ -179,9 +186,11 @@ client.distube
     )
   )
 
-  .on('error', (channel, e) => {
-    channel.send(` | An error encountered: ${e.toString().slice(0, 1974)}`)
-    console.error(e)
+  .on('error', (error, queue, song) => {
+    queue.textChannel.send(
+      ` | An error encountered: ${error.toString().slice(0, 1974)}`
+    )
+    console.error(error)
   })
 
   .on('empty', (queue) =>
@@ -194,9 +203,10 @@ client.distube
     )
   )
 
-  .on('finish', (queue) =>
+  .on('finish', (queue) => {
     queue.textChannel.send('📜 | A fila terminou, por isso saí do canal')
-  )
+    queue.voice.leave()
+  })
 
 require('./slashcmds/Systems/giveaway-system')(client)
 
@@ -228,22 +238,19 @@ client.on('ready', async () => {
   await mongo()
 
   //Status custom aleatório
-  // setInterval(() => {
-  //   const statuses = [
-  //     `Trabalhando no Surpice`,
-  //     `Criado por pedrohcs8`,
-  //     `Em desenvolvimento`,
-  //     `Com host :)`,
-  //     `Renato online!`,
-  //     `Meu prefixo padrão é .`,
-  //     `Hospedado em um Raspberry Pi 4!`,
-  //     `Online - Cluster 1-Renato-Host`,
-  //     `Use .help se necessário`,
-  //   ]
+  setInterval(() => {
+    const statuses = [
+      `Criado por pedrohcs8`,
+      `Em desenvolvimento`,
+      `Renato online!`,
+      `Meu prefixo padrão é .`,
+      `Hospedado em um Raspberry Pi 4!`,
+      `Use help se necessário`,
+    ]
 
-  //   const status = statuses[Math.floor(Math.random() * statuses.length)]
-  //   client.user.setActivity(status, { type: 'PLAYING' })
-  // }, 5000)
+    const status = statuses[Math.floor(Math.random() * statuses.length)]
+    client.user.setActivity(status)
+  }, 5000)
 
   // welcome(client)
   // exit(client)
@@ -297,13 +304,6 @@ client.on('ready', async () => {
   // ----------| |----------
 
   // ----------| Comandos Antigos (DEPRECATED) |----------
-  loadFeatures(client)
-
-  messageCount(client)
-
-  tempchannel(client)
-
-  poll(client)
 
   // ----------| |----------
 })
