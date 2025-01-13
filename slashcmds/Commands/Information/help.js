@@ -62,7 +62,7 @@ module.exports = {
   category: 'Informação',
   data: new SlashCommandBuilder()
     .setName('help')
-    .setDescription('Comando para ver informações sobre o bot'),
+    .setDescription('Comando para ver informações sobre os comandos do bot'),
 
   /**
    *

@@ -184,7 +184,11 @@ module.exports = {
   async execute(interaction, client) {
     const { options, member, guild, channel } = interaction
 
-    await interaction.deferReply()
+    try {
+      await interaction.deferReply()
+    } catch (error) {
+      return console.log(error)
+    }
 
     const voiceChannel = member.voice.channel
 
@@ -247,9 +251,10 @@ module.exports = {
             return interaction.editReply({ content: '🎶 Playlist Recebida' })
           } else if (query.includes('open.spotify.com/')) {
             //Problematic Query Check
-            if (query.includes("/collection/tracks")) {
+            if (query.includes('/collection/tracks')) {
               return interaction.editReply({
-                content: '⛔ - Link Invalido, tente usar o botao de compartilhar',
+                content:
+                  '⛔ - Link Invalido, tente usar o botao de compartilhar',
               })
             }
 
@@ -268,9 +273,7 @@ module.exports = {
               })
             }
           } else if (query.includes('music.youtube.com')) {
-            return interaction.editReply(
-              '⛔ - Não aceitamos o Youtube Music!'
-            )
+            return interaction.editReply('⛔ - Não aceitamos o Youtube Music!')
           } else {
             let found
 
@@ -282,7 +285,6 @@ module.exports = {
                   content: '⛔ - Não Consegui Encontrar esta música',
                 })
               } else {
-
                 return interaction.editReply({
                   content: '⛔ - Erro procurando esta música, verifique o link',
                 })
