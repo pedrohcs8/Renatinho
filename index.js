@@ -117,7 +117,7 @@ const client = new Main({
   partials: [User, Message, GuildMember, ThreadMember],
 })
 
-const ytPlugin = new YouTubePlugin({
+client.ytPlugin = new YouTubePlugin({
   cookies: JSON.parse(fs.readFileSync('cookies.json')),
 })
 
@@ -132,8 +132,7 @@ client.distube = new DisTube(client, {
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       },
     }),
-    ytPlugin,
-    // new YtDlpPlugin(),
+    client.ytPlugin,
   ],
 })
 
@@ -208,7 +207,8 @@ client.distube
     queue.voice.leave()
   })
 
-require('./slashcmds/Systems/giveaway-system')(client)
+// TODO: Redo this system
+// require('./slashcmds/Systems/giveaway-system')(client)
 
 client.login()
 
