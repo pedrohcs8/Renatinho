@@ -2,8 +2,6 @@ const {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   EmbedBuilder,
-  ActionRowBuilder,
-  StringSelectMenuBuilder,
 } = require('discord.js')
 
 module.exports = {
@@ -18,8 +16,6 @@ module.exports = {
    */
 
   async execute(interaction) {
-    const { user, guild } = interaction
-
     const embed = new EmbedBuilder()
       .setTitle('Meu nome é Renatinho e aqui tem um pouco da minha história!')
       .addFields(
