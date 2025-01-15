@@ -310,7 +310,9 @@ module.exports = {
 
               return interaction.editReply({ content: '🎶 Música recebida' })
             } else {
-              return interaction.editReply('⛔ - Música não encontrada')
+              return interaction.editReply(
+                '⛔ - Música não encontrada, verifique o link ou o nome'
+              )
             }
           }
         }
