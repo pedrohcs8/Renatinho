@@ -297,7 +297,7 @@ module.exports = {
               } else {
                 return interaction.editReply({
                   content:
-                    '⛔ - Erro procurando esta música, contate o desenvolvedor.',
+                    '⛔ - Erro procurando esta música, verifique o link ou contate o desenvolvedor.',
                 })
               }
             }
@@ -310,7 +310,7 @@ module.exports = {
 
               return interaction.editReply({ content: '🎶 Música recebida' })
             } else {
-              interaction.editReply('⛔ - Música não encontrada')
+              return interaction.editReply('⛔ - Música não encontrada')
             }
           }
         }
