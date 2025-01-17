@@ -185,11 +185,28 @@ client.distube
     )
   )
 
-  .on('error', (error, queue, song) => {
-    queue.textChannel.send(
-      ` | An error encountered: ${error.toString().slice(0, 1974)}`
-    )
-    console.error(error)
+  .on('error', async (error, queue, song) => {
+    const stringE = error.toString().slice(0, 1974)
+
+    if (
+      stringE == 'DisTubeError [UNPLAYABLE_FORMATS]: No playable format found'
+    ) {
+      try {
+        await queue.addToQueue(song)
+        await queue.skip()
+      } catch (e) {
+        if (e == 'DisTubeError [NO_UP_NEXT]: There is no up next song') {
+          return console.log('Error that needs proper patching by distube')
+        }
+
+        console.log(e)
+        queue.textChannel.send(
+          `Não consegui tocar esta música, tente novamente`
+        )
+      }
+    } else {
+      queue.textChannel.send(` | An error encountered: ${stringE}`)
+    }
   })
 
   .on('empty', (queue) =>
