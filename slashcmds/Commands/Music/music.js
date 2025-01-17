@@ -205,7 +205,7 @@ module.exports = {
 
       switch (options.getSubcommand()) {
         case 'play': {
-          const query = options.getString('nome-link')
+          const query = dealParenthesis(options.getString('nome-link'))
 
           if (query.includes('youtube.com/playlist')) {
             const isPublic = await isPlaylistPublic(query)
@@ -673,4 +673,20 @@ async function isPlaylistPublic(playlistUrl) {
     console.error(err)
     return false
   }
+}
+
+function dealParenthesis(text) {
+  const splitted = text.split('(')
+  let newSplit = []
+
+  splitted.forEach((entry) => {
+    if (entry.includes(')')) {
+      newSplit.push(`(${entry}`)
+    } else {
+      newSplit.push(entry)
+    }
+  })
+
+  console.log(newSplit.join(' '))
+  return newSplit.join(' ')
 }
