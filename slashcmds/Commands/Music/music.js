@@ -687,6 +687,5 @@ function dealParenthesis(text) {
     }
   })
 
-  console.log(newSplit.join(' '))
   return newSplit.join(' ')
 }
