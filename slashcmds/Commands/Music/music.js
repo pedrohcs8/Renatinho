@@ -272,20 +272,19 @@ module.exports = {
                 content: '⛔ - Erro Carregando Musica do Spotify',
               })
             }
-          } else if (
-            query.includes('https://www.youtube.com/watch') ||
-            query.includes('https://youtu.be/')
-          ) {
-            client.distube.play(voiceChannel, query, {
-              member: member,
-              textChannel: channel,
-            })
-
-            return interaction.editReply({ content: '🎶 Música recebida' })
           } else if (query.includes('music.youtube.com')) {
             return interaction.editReply('⛔ - Não aceitamos o Youtube Music!')
           } else {
             let found
+
+            if (query.includes("https://")) {
+              client.distube.play(voiceChannel, query, {
+                member: member,
+                textChannel: channel,
+              })
+
+              return interaction.editReply({ content: '🎶 Música recebida' })
+            }
 
             try {
               found = await client.ytPlugin.search(query)

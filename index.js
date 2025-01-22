@@ -119,6 +119,9 @@ const client = new Main({
 
 client.ytPlugin = new YouTubePlugin({
   cookies: JSON.parse(fs.readFileSync('cookies.json')),
+  ytdlOptions: {
+    playerClients: ['IOS', 'WEB_CREATOR', 'ANDROID', 'WEB'],
+  },
 })
 
 client.distube = new DisTube(client, {
@@ -144,6 +147,8 @@ const { loadConfig } = require('./slashcmds/Functions/configLoader')
 dbIndex.start()
 
 // ----------| Eventos do Distube |----------
+
+let errorTries = 0
 
 const status = (queue) =>
   `Volume: \`${queue.volume}%\` | Efeitos: \`${
@@ -187,10 +192,18 @@ client.distube
 
   .on('error', async (error, queue, song) => {
     const stringE = error.toString().slice(0, 1974)
+    errorTries++
 
     if (
       stringE == 'DisTubeError [UNPLAYABLE_FORMATS]: No playable format found'
     ) {
+      if (errorTries > 10) {
+        errorTries = 0
+        return queue.textChannel.send(
+          `Não consegui tocar esta música, tente novamente ou use um link`
+        )
+      }
+
       try {
         await queue.addToQueue(song)
         await queue.skip()
@@ -200,9 +213,6 @@ client.distube
         }
 
         console.log(e)
-        queue.textChannel.send(
-          `Não consegui tocar esta música, tente novamente`
-        )
       }
     } else {
       queue.textChannel.send(` | An error encountered: ${stringE}`)
@@ -223,7 +233,7 @@ client.distube
     queue.textChannel.send('📜 | A fila terminou, por isso saí do canal')
     queue.voice.leave()
   })
-
+  
 // TODO: Redo this system
 // require('./slashcmds/Systems/giveaway-system')(client)
 
