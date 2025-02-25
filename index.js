@@ -111,10 +111,10 @@ const client = new Main({
     GuildMembers,
     GuildMessages,
     'GuildVoiceStates',
-    'GuildMessageReactions',
+    GatewayIntentBits.GuildMessageReactions,
     MessageContent,
   ],
-  partials: [User, Message, GuildMember, ThreadMember],
+  partials: [User, Message, GuildMember, ThreadMember, Partials.Reaction],
 })
 
 client.ytPlugin = new YouTubePlugin({
@@ -233,7 +233,7 @@ client.distube
     queue.textChannel.send('📜 | A fila terminou, por isso saí do canal')
     queue.voice.leave()
   })
-  
+
 // TODO: Redo this system
 // require('./slashcmds/Systems/giveaway-system')(client)
 

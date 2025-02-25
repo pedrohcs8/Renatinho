@@ -6,6 +6,8 @@ const {
 } = require('discord.js')
 const reactionRolesSchema = require('../../../schemas/reaction-roles-schema')
 
+const config = require('@root/config.json')
+
 module.exports = {
   category: 'Moderação',
   subsincluded: true,
@@ -84,14 +86,26 @@ module.exports = {
         return interaction.reply(`A mensagem escolhida não está no canal`)
       })
 
+    const numbers = emoji.match(/\d/g).join('')
+
     if (!/\p{Extended_Pictographic}/u.test(emoji)) {
-      return interaction.reply('O emoji provido não é um emoji')
+      if (!numbers.length == 18) {
+        return interaction.reply('O emoji provido não é um emoji')
+      }
+    }
+
+    let parsedEmoji
+
+    if (numbers.length == 18) {
+      parsedEmoji = emoji.replace(/[^a-z]/gi, '')
+    } else {
+      parsedEmoji = emoji
     }
 
     const guildData = await reactionRolesSchema.findOne({
       guildId: guild.id,
       message: targetMessageId,
-      emoji: emoji,
+      emoji: parsedEmoji,
     })
 
     switch (sub) {
@@ -104,7 +118,7 @@ module.exports = {
           await reactionRolesSchema.create({
             guildId: guild.id,
             message: targetMessage.id,
-            emoji: emoji,
+            emoji: parsedEmoji,
             role: role.id,
           })
 
@@ -128,8 +142,12 @@ module.exports = {
           reactionRolesSchema.deleteOne({
             guildId: guild.id,
             message: targetMessage.id,
-            emoji: emoji,
+            emoji: parsedEmoji,
           })
+
+          targetMessage.reactions.cache
+            .find((x) => x.emoji.name == parsedEmoji)
+            .users.remove(config.botid)
 
           const embed = new EmbedBuilder()
             .setColor(process.env.EMBED_COLOR)
