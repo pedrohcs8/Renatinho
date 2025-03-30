@@ -4,6 +4,7 @@
   MessageEmbed,
   SlashCommandBuilder,
   EmbedBuilder,
+  MessageFlags,
 } = require('discord.js')
 
 const guildSchema = require('@schemas/guild-schema')
@@ -197,20 +198,16 @@ module.exports = {
   async execute(interaction, client) {
     const { options, member, guild, channel } = interaction
 
-    try {
-      await interaction.deferReply()
-    } catch (error) {
-      return console.log(error)
-    }
-
     const voiceChannel = member.voice.channel
 
-    if (!voiceChannel) {
-      return interaction.editReply({
-        content:
-          'Você precisa estar em um canal de voz para usar os comandos de música',
-        ephemeral: true,
-      })
+    if (!options.getSubcommand() == 'canalpermitido') {
+      if (!voiceChannel) {
+        return interaction.editReply({
+          content:
+            'Você precisa estar em um canal de voz para usar os comandos de música',
+          ephemeral: true,
+        })
+      }
     }
 
     try {
@@ -221,13 +218,20 @@ module.exports = {
           const data = await guildSchema.findOne({ idS: guild.id })
 
           if (data.musicChannel == '') {
-            return interaction.editReply(
+            return interaction.reply(
               'Este servidor não tem um canal configurado para os comandos de música! Configure com /music canalpermitido'
             )
           } else if (interaction.channel.id != data.musicChannel) {
-            return interaction.editReply(
-              'Este comando não é permitido neste canal.'
-            )
+            return interaction.reply({
+              content: 'Este comando não é permitido neste canal.',
+              flags: MessageFlags.Ephemeral,
+            })
+          }
+
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
           }
 
           const query = options.getString('nome-link')
@@ -342,6 +346,12 @@ module.exports = {
         }
 
         case 'volume': {
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const volume = options.getNumber('porcentagem')
 
           if (volume > 100 || volume < 1) {
@@ -371,6 +381,12 @@ module.exports = {
         }
 
         case 'settings': {
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const queue = await client.distube.getQueue(voiceChannel)
 
           if (!queue) {
@@ -455,6 +471,12 @@ module.exports = {
         }
 
         case 'effects': {
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const queue = await client.distube.getQueue(voiceChannel)
 
           if (!queue) {
