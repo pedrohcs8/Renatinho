@@ -49,8 +49,6 @@ module.exports = {
 
       const doc = await guildSchema.findOne({ idS: guild.id })
 
-      // TODO: IMPLEMENTAR SISTEMA DE BOAS VINDAS
-
       if (doc.welcome.status) {
         const welcomeChannelId = doc.welcome.channel
         const message = doc.welcome.msg

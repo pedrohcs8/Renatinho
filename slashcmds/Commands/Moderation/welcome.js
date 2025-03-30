@@ -33,11 +33,14 @@ module.exports = {
         .addStringOption((options) =>
           options
             .setName('mensagem')
-            .setDescription('Mensagem que será mandada quando o membro entrar')
+            .setDescription(
+              'Mensagem que será mandada quando o membro entrar, use /welcome help para opções'
+            )
             .setRequired(true)
         )
     ),
 
+  //TODO: Welcome Help
   /**
    *
    * @param {ChatInputCommandInteraction} interaction

@@ -69,6 +69,7 @@ let guildSchema = new Schema({
       category: { type: String, default: 'null' },
     },
   },
+  musicChannel: { type: String, default: '' },
 })
 
 let Guild = mongoose.model('Guilds', guildSchema)

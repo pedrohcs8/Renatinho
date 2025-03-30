@@ -6,6 +6,8 @@
   EmbedBuilder,
 } = require('discord.js')
 
+const guildSchema = require('@schemas/guild-schema')
+
 const { google } = require('googleapis')
 const fetch = require('isomorphic-unfetch')
 const { getData, getPreview, getTracks, getDetails } =
@@ -172,6 +174,17 @@ module.exports = {
               }
             )
         )
+    )
+    .addSubcommand((options) =>
+      options
+        .setName('canalpermitido')
+        .setDescription('Configure o canal habilitado para comandos de música')
+        .addChannelOption((options) =>
+          options
+            .setName('canal')
+            .setDescription('Canal Permitido')
+            .setRequired(true)
+        )
     ),
 
   /**
@@ -205,6 +218,18 @@ module.exports = {
 
       switch (options.getSubcommand()) {
         case 'play': {
+          const data = await guildSchema.findOne({ idS: guild.id })
+
+          if (data.musicChannel == '') {
+            return interaction.editReply(
+              'Este servidor não tem um canal configurado para os comandos de música! Configure com /music canalpermitido'
+            )
+          } else if (interaction.channel.id != data.musicChannel) {
+            return interaction.editReply(
+              'Este comando não é permitido neste canal.'
+            )
+          }
+
           const query = options.getString('nome-link')
 
           if (query.includes('youtube.com/playlist')) {
@@ -277,7 +302,7 @@ module.exports = {
           } else {
             let found
 
-            if (query.includes("https://")) {
+            if (query.includes('https://')) {
               client.distube.play(voiceChannel, query, {
                 member: member,
                 textChannel: channel,
@@ -330,6 +355,19 @@ module.exports = {
           return interaction.editReply({
             content: `📶 O volume foi configurado para: \`${volume}%\``,
           })
+        }
+
+        case 'canalpermitido': {
+          const channel = options.getChannel('canal').id
+
+          await guildSchema.findOneAndUpdate(
+            { idS: guild.id },
+            { musicChannel: channel }
+          )
+
+          return interaction.editReply(
+            'Canal alterado/configurado com sucesso!'
+          )
         }
 
         case 'settings': {
