@@ -372,7 +372,7 @@ module.exports = {
 
           client.distube.setVolume(voiceChannel, volume)
 
-          return interaction.editReply({
+          return interaction.reply({
             content: `📶 O volume foi configurado para: \`${volume}%\``,
           })
         }
