@@ -378,15 +378,23 @@ module.exports = {
         }
 
         case 'canalpermitido': {
-          const textChannel = options.getChannel('canal-texto').id
-          const voiceChannel = options.getChannel('canal-voz').id
+          const textChannel = options.getChannel('canal-texto')
+          const voiceChannel = options.getChannel('canal-voz')
+
+          if (!voiceChannel.isDMBased) {
+            return interaction.reply('O canal selecionado não é de texto')
+          }
+
+          if (!voiceChannel.isVoiceBased) {
+            return interaction.reply('O canal selecionado não é de voz')
+          }
 
           await guildSchema.findOneAndUpdate(
             { idS: guild.id },
             {
               musicChannels: {
-                textChannel,
-                voiceChannel,
+                textChannel: textChannel.id,
+                voiceChannel: voiceChannel.id,
               },
             }
           )
