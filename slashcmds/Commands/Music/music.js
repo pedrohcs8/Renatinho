@@ -381,7 +381,7 @@ module.exports = {
           const textChannel = options.getChannel('canal-texto')
           const voiceChannel = options.getChannel('canal-voz')
 
-          if (!textChannel.isDMBased()) {
+          if (textChannel.isVoiceBased()) {
             return interaction.reply('O canal selecionado não é de texto')
           }
 
