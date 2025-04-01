@@ -182,8 +182,14 @@ module.exports = {
         .setDescription('Configure o canal habilitado para comandos de música')
         .addChannelOption((options) =>
           options
-            .setName('canal')
-            .setDescription('Canal Permitido')
+            .setName('canal-texto')
+            .setDescription('Canal de texto permitido')
+            .setRequired(true)
+        )
+        .addChannelOption((options) =>
+          options
+            .setName('canal-voz')
+            .setDescription('Canal de voz permitido')
             .setRequired(true)
         )
     ),
@@ -217,13 +223,17 @@ module.exports = {
         case 'play': {
           const data = await guildSchema.findOne({ idS: guild.id })
 
-          if (data.musicChannel == '') {
+          if (data.musicChannels.textChannel == '') {
             return interaction.reply(
               'Este servidor não tem um canal configurado para os comandos de música! Configure com /music canalpermitido'
             )
-          } else if (interaction.channel.id != data.musicChannel) {
+          } else if (
+            interaction.channel.id != data.musicChannels.textChannel ||
+            interaction.member.voice.channel.id !=
+              data.musicChannels.voiceChannel
+          ) {
             return interaction.reply({
-              content: 'Este comando não é permitido neste canal.',
+              content: 'Este comando não é permitido neste canal/call.',
               flags: MessageFlags.Ephemeral,
             })
           }
@@ -368,16 +378,20 @@ module.exports = {
         }
 
         case 'canalpermitido': {
-          const channel = options.getChannel('canal').id
+          const textChannel = options.getChannel('canal-texto').id
+          const voiceChannel = options.getChannel('canal-voz').id
 
           await guildSchema.findOneAndUpdate(
             { idS: guild.id },
-            { musicChannel: channel }
+            {
+              musicChannels: {
+                textChannel,
+                voiceChannel,
+              },
+            }
           )
 
-          return interaction.editReply(
-            'Canal alterado/configurado com sucesso!'
-          )
+          return interaction.reply('Canal alterado/configurado com sucesso!')
         }
 
         case 'settings': {
@@ -710,7 +724,7 @@ module.exports = {
         .setColor('Red')
         .setDescription(`⛔ Erro: ${e}`)
 
-      return interaction.editReply({ embeds: [errorEmbed] })
+      return interaction.reply({ embeds: [errorEmbed] })
     }
   },
 }
