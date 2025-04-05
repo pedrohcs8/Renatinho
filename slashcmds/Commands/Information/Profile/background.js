@@ -41,7 +41,7 @@ module.exports = {
             .setName('id')
             .setDescription('Id do background que você quer')
             .setRequired(true)
-            .setMinValue(1)
+            .setMinValue(0)
             .setMaxValue(4)
         )
     ),

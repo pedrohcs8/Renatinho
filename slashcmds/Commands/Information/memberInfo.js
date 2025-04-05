@@ -65,12 +65,14 @@ module.exports = {
         .slice(0, 3)
 
       let userBadges = member.user.flags.toArray()
-      userBadges = userBadges.slice(userBadges.length / 2)
-
-      console.log(userBadges)
 
       const joinTime = parseInt(member.joinedTimestamp / 1000)
       const createdTime = parseInt(member.user.createdTimestamp / 1000)
+
+      const banner =
+        (await member.user.fetch()).bannerURL() != null
+          ? (await member.user.fetch()).bannerURL()
+          : ''
 
       const Booster = member.premiumSince ? Emojis.Booster : '❌'
 
@@ -110,6 +112,11 @@ module.exports = {
             inline: true,
           },
           {
+            name: 'Entrou no Discord',
+            value: `<t:${createdTime}:R>`,
+            inline: true,
+          },
+          {
             name: 'Id do Membro',
             value: `${member.id}`,
             inline: true,
@@ -119,12 +126,14 @@ module.exports = {
             value: `[Link](${member.displayAvatarURL()})`,
             inline: true,
           },
-          {
-            name: 'Banner',
-            value: `[Link](${(await member.user.fetch()).bannerURL()})`,
-            inline: true,
-          },
         ])
+
+      if (banner) {
+        embed.addFields({
+          name: 'Banner',
+          value: `[Link](${banner})`,
+        })
+      }
 
       interaction.editReply({ embeds: [embed], files: [imageAttachment] })
     } catch (error) {

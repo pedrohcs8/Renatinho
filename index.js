@@ -111,14 +111,17 @@ const client = new Main({
     GuildMembers,
     GuildMessages,
     'GuildVoiceStates',
-    'GuildMessageReactions',
+    GatewayIntentBits.GuildMessageReactions,
     MessageContent,
   ],
-  partials: [User, Message, GuildMember, ThreadMember],
+  partials: [User, Message, GuildMember, ThreadMember, Partials.Reaction],
 })
 
-const ytPlugin = new YouTubePlugin({
+client.ytPlugin = new YouTubePlugin({
   cookies: JSON.parse(fs.readFileSync('cookies.json')),
+  ytdlOptions: {
+    playerClients: ['IOS', 'WEB_CREATOR', 'ANDROID', 'WEB'],
+  },
 })
 
 client.distube = new DisTube(client, {
@@ -132,8 +135,7 @@ client.distube = new DisTube(client, {
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       },
     }),
-    ytPlugin,
-    // new YtDlpPlugin(),
+    client.ytPlugin,
   ],
 })
 
@@ -145,6 +147,8 @@ const { loadConfig } = require('./slashcmds/Functions/configLoader')
 dbIndex.start()
 
 // ----------| Eventos do Distube |----------
+
+let errorTries = 0
 
 const status = (queue) =>
   `Volume: \`${queue.volume}%\` | Efeitos: \`${
@@ -186,11 +190,33 @@ client.distube
     )
   )
 
-  .on('error', (error, queue, song) => {
-    queue.textChannel.send(
-      ` | An error encountered: ${error.toString().slice(0, 1974)}`
-    )
-    console.error(error)
+  .on('error', async (error, queue, song) => {
+    const stringE = error.toString().slice(0, 1974)
+    errorTries++
+
+    if (
+      stringE == 'DisTubeError [UNPLAYABLE_FORMATS]: No playable format found'
+    ) {
+      if (errorTries > 10) {
+        errorTries = 0
+        return queue.textChannel.send(
+          `Não consegui tocar esta música, tente novamente ou use um link`
+        )
+      }
+
+      try {
+        await queue.addToQueue(song)
+        await queue.skip()
+      } catch (e) {
+        if (e == 'DisTubeError [NO_UP_NEXT]: There is no up next song') {
+          return console.log('Error that needs proper patching by distube')
+        }
+
+        console.log(e)
+      }
+    } else {
+      queue.textChannel.send(` | An error encountered: ${stringE}`)
+    }
   })
 
   .on('empty', (queue) =>
@@ -208,7 +234,8 @@ client.distube
     queue.voice.leave()
   })
 
-require('./slashcmds/Systems/giveaway-system')(client)
+// TODO: Redo this system
+// require('./slashcmds/Systems/giveaway-system')(client)
 
 client.login()
 

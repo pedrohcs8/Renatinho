@@ -4,7 +4,10 @@
   MessageEmbed,
   SlashCommandBuilder,
   EmbedBuilder,
+  MessageFlags,
 } = require('discord.js')
+
+const guildSchema = require('@schemas/guild-schema')
 
 const { google } = require('googleapis')
 const fetch = require('isomorphic-unfetch')
@@ -172,6 +175,23 @@ module.exports = {
               }
             )
         )
+    )
+    .addSubcommand((options) =>
+      options
+        .setName('canalpermitido')
+        .setDescription('Configure o canal habilitado para comandos de música')
+        .addChannelOption((options) =>
+          options
+            .setName('canal-texto')
+            .setDescription('Canal de texto permitido')
+            .setRequired(true)
+        )
+        .addChannelOption((options) =>
+          options
+            .setName('canal-voz')
+            .setDescription('Canal de voz permitido')
+            .setRequired(true)
+        )
     ),
 
   /**
@@ -184,16 +204,16 @@ module.exports = {
   async execute(interaction, client) {
     const { options, member, guild, channel } = interaction
 
-    await interaction.deferReply()
-
     const voiceChannel = member.voice.channel
 
-    if (!voiceChannel) {
-      return interaction.editReply({
-        content:
-          'Você precisa estar em um canal de voz para usar os comandos de música',
-        ephemeral: true,
-      })
+    if (!options.getSubcommand() == 'canalpermitido') {
+      if (!voiceChannel) {
+        return interaction.editReply({
+          content:
+            'Você precisa estar em um canal de voz para usar os comandos de música',
+          ephemeral: true,
+        })
+      }
     }
 
     try {
@@ -201,6 +221,29 @@ module.exports = {
 
       switch (options.getSubcommand()) {
         case 'play': {
+          const data = await guildSchema.findOne({ idS: guild.id })
+
+          if (data.musicChannels.textChannel == '') {
+            return interaction.reply(
+              'Este servidor não tem um canal configurado para os comandos de música! Configure com /music canalpermitido'
+            )
+          } else if (
+            interaction.channel.id != data.musicChannels.textChannel ||
+            interaction.member.voice.channel.id !=
+              data.musicChannels.voiceChannel
+          ) {
+            return interaction.reply({
+              content: 'Este comando não é permitido neste canal/call.',
+              flags: MessageFlags.Ephemeral,
+            })
+          }
+
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const query = options.getString('nome-link')
 
           if (query.includes('youtube.com/playlist')) {
@@ -223,7 +266,7 @@ module.exports = {
             let arrSongs = []
 
             for (const track of playlist) {
-              const searchResults = await client.distube.search(
+              const searchResults = await client.ytPlugin.search(
                 `${track.name} - ${track.artist.name}`
               )
               const song = searchResults[0]
@@ -247,9 +290,10 @@ module.exports = {
             return interaction.editReply({ content: '🎶 Playlist Recebida' })
           } else if (query.includes('open.spotify.com/')) {
             //Problematic Query Check
-            if (query.includes("/collection/tracks")) {
+            if (query.includes('/collection/tracks')) {
               return interaction.editReply({
-                content: '⛔ - Link Invalido, tente usar o botao de compartilhar',
+                content:
+                  '⛔ - Link Invalido, tente usar o botao de compartilhar',
               })
             }
 
@@ -268,23 +312,30 @@ module.exports = {
               })
             }
           } else if (query.includes('music.youtube.com')) {
-            return interaction.editReply(
-              '⛔ - Não aceitamos o Youtube Music!'
-            )
+            return interaction.editReply('⛔ - Não aceitamos o Youtube Music!')
           } else {
             let found
 
+            if (query.includes('https://')) {
+              client.distube.play(voiceChannel, query, {
+                member: member,
+                textChannel: channel,
+              })
+
+              return interaction.editReply({ content: '🎶 Música recebida' })
+            }
+
             try {
-              found = await client.distube.search(query)
+              found = await client.ytPlugin.search(query)
             } catch (e) {
               if (e == 'DisTubeError [NO_RESULT]: No result found') {
                 return interaction.editReply({
                   content: '⛔ - Não Consegui Encontrar esta música',
                 })
               } else {
-
                 return interaction.editReply({
-                  content: '⛔ - Erro procurando esta música, verifique o link',
+                  content:
+                    '⛔ - Erro procurando esta música, verifique o link ou contate o desenvolvedor.',
                 })
               }
             }
@@ -297,12 +348,20 @@ module.exports = {
 
               return interaction.editReply({ content: '🎶 Música recebida' })
             } else {
-              interaction.editReply('⛔ - Música não encontrada')
+              return interaction.editReply(
+                '⛔ - Música não encontrada, verifique o link ou o nome'
+              )
             }
           }
         }
 
         case 'volume': {
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const volume = options.getNumber('porcentagem')
 
           if (volume > 100 || volume < 1) {
@@ -318,7 +377,38 @@ module.exports = {
           })
         }
 
+        case 'canalpermitido': {
+          const textChannel = options.getChannel('canal-texto')
+          const voiceChannel = options.getChannel('canal-voz')
+
+          if (textChannel.isVoiceBased()) {
+            return interaction.reply('O canal selecionado não é de texto')
+          }
+
+          if (!voiceChannel.isVoiceBased()) {
+            return interaction.reply('O canal selecionado não é de voz')
+          }
+
+          await guildSchema.findOneAndUpdate(
+            { idS: guild.id },
+            {
+              musicChannels: {
+                textChannel: textChannel.id,
+                voiceChannel: voiceChannel.id,
+              },
+            }
+          )
+
+          return interaction.reply('Canal alterado/configurado com sucesso!')
+        }
+
         case 'settings': {
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const queue = await client.distube.getQueue(voiceChannel)
 
           if (!queue) {
@@ -403,6 +493,12 @@ module.exports = {
         }
 
         case 'effects': {
+          try {
+            await interaction.deferReply()
+          } catch (error) {
+            return console.log(error)
+          }
+
           const queue = await client.distube.getQueue(voiceChannel)
 
           if (!queue) {
@@ -636,7 +732,7 @@ module.exports = {
         .setColor('Red')
         .setDescription(`⛔ Erro: ${e}`)
 
-      return interaction.editReply({ embeds: [errorEmbed] })
+      return interaction.reply({ embeds: [errorEmbed] })
     }
   },
 }

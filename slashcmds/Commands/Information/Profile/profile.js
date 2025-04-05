@@ -23,9 +23,7 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply()
 
-    const { guild, member } = interaction
-
-    const guildId = guild.id
+    const { member } = interaction
 
     const results = await profileSchema.findOne({ userId: member.id })
 
@@ -63,14 +61,16 @@ module.exports = {
       ctx.textAlign = 'left'
       ctx.font = '50px "Segoe UI Black"'
       ctx.fillStyle = fontColor
-      await Util.renderEmoji(ctx, this.shorten(User.username, 20), 200, 100)
+      ctx.fillText(this.shorten(User.username, 20), 230, 190)
 
       //Badges
 
       let list = []
 
       const flags = User.flags === 'null' ? '' : User.flags.toArray()
-      list.push(flags)
+      flags.forEach((flag) => {
+        list.push(flag)
+      })
 
       if (doc.marry.has) {
         list.push('CASADO')
@@ -84,21 +84,21 @@ module.exports = {
         list.push('DONO')
       }
 
-      list = list
-        .join('')
-        .replace('EARLY_VERIFIED_DEVELOPER', Emojis.Verified_Developer)
-        .replace('HypeSquadOnlineHouse1', Emojis.Bravery)
-        .replace('HypeSquadOnlineHouse2', Emojis.Brilliance)
-        .replace('HypeSquadOnlineHouse3', Emojis.Balance)
-        .replace('VERIFIED_BOT', Emojis.Verified_Bot)
-        .replace('VERIFIED_DEVELOPER', Emojis.Verified_Developer)
-        .replace('ActiveDeveloper', Emojis.ActiveDeveloper)
-        .replace('CASADO', Emojis.Alianca)
-        .replace('DONO', '🔰')
-        .replace('SERVER_OWNER', Emojis.Server_Owner)
+      // list = list
+      //   .join('')
+      //   .replace('EARLY_VERIFIED_DEVELOPER', Emojis.Verified_Developer)
+      //   .replace('HypeSquadOnlineHouse1', Emojis.Bravery)
+      //   .replace('HypeSquadOnlineHouse2', Emojis.Brilliance)
+      //   .replace('HypeSquadOnlineHouse3', Emojis.Balance)
+      //   .replace('VERIFIED_BOT', Emojis.Verified_Bot)
+      //   .replace('VERIFIED_DEVELOPER', Emojis.Verified_Developer)
+      //   .replace('ActiveDeveloper', Emojis.ActiveDeveloper)
+      //   .replace('CASADO', Emojis.Alianca)
+      //   .replace('DONO', '🔰')
+      //   .replace('SERVER_OWNER', Emojis.Server_Owner)
 
       ctx.font = '30px "Segoe Print"'
-      await Util.renderEmoji(ctx, list.split(',').join(''), 200, 150)
+      await Util.renderBadges(ctx, list, 200, 150)
 
       // Titles
       ctx.textAlign = 'left'
@@ -213,14 +213,16 @@ module.exports = {
       ctx.textAlign = 'left'
       ctx.font = ' 50px "Segoe UI Black"'
       ctx.fillStyle = 'rgb(253, 255, 252)'
-      await Util.renderEmoji(ctx, this.shorten(User.username, 20), 230, 190)
+      ctx.fillText(this.shorten(User.username, 20), 230, 190)
 
       //Badges
 
       let list = []
 
       const flags = User.flags === 'null' ? '' : User.flags.toArray()
-      list.push(flags)
+      flags.forEach((flag) => {
+        list.push(flag)
+      })
 
       if (doc.marry.has) {
         list.push('CASADO')
@@ -234,21 +236,21 @@ module.exports = {
         list.push('DONO')
       }
 
-      list = list
-        .join('')
-        .replace('EARLY_VERIFIED_DEVELOPER', Emojis.Verified_Developer)
-        .replace('HypeSquadOnlineHouse1', Emojis.Bravery)
-        .replace('HypeSquadOnlineHouse2', Emojis.Brilliance)
-        .replace('HypeSquadOnlineHouse3', Emojis.Balance)
-        .replace('VERIFIED_BOT', Emojis.Verified_Bot)
-        .replace('VERIFIED_DEVELOPER', Emojis.Verified_Developer)
-        .replace('CASADO', Emojis.Alianca)
-        .replace('DONO', '🔰') //Dono do Bot
-        .replace('ActiveDeveloper', Emojis.ActiveDeveloper)
-        .replace('SERVER_OWNER', Emojis.Server_Owner)
+      // list = list
+      //   .join('')
+      //   .replace('EARLY_VERIFIED_DEVELOPER', Emojis.Verified_Developer)
+      //   .replace('HypeSquadOnlineHouse1', Emojis.Bravery)
+      //   .replace('HypeSquadOnlineHouse2', Emojis.Brilliance)
+      //   .replace('HypeSquadOnlineHouse3', Emojis.Balance)
+      //   .replace('VERIFIED_BOT', Emojis.Verified_Bot)
+      //   .replace('VERIFIED_DEVELOPER', Emojis.Verified_Developer)
+      //   .replace('CASADO', Emojis.Alianca)
+      //   .replace('DONO', '🔰') //Dono do Bot
+      //   .replace('ActiveDeveloper', Emojis.ActiveDeveloper)
+      //   .replace('SERVER_OWNER', Emojis.Server_Owner)
 
       ctx.font = '30px "Segoe Print"'
-      await Util.renderEmoji(ctx, list.split(',').join(''), 230, 240)
+      await Util.renderBadges(ctx, list, 230, 200)
 
       // Titles
       ctx.textAlign = 'left'

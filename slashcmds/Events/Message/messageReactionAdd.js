@@ -1,4 +1,4 @@
-const { User, Client } = require('discord.js')
+const { User, Client, MessageReaction } = require('discord.js')
 const reactionRolesSchema = require('../../../schemas/reaction-roles-schema')
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
 
   /**
    *
-   * @param {*} reaction
+   * @param {MessageReaction} reaction
    * @param {User} user
    * @param {Client} client
    */
@@ -20,26 +20,26 @@ module.exports = {
       return
     }
 
-    let cID = `<${reaction.emoji.name}:${reaction.emoji.id}>`
-    if (!reaction.emoji.id) {
-      cID = reaction.emoji.name
-    }
-
     const data = await reactionRolesSchema.findOne({
       guildId: reaction.message.guildId,
       message: reaction.message.id,
-      emoji: cID,
+      emoji: reaction.emoji.name,
     })
+
     if (!data) {
       return
     }
 
-    const guild = client.guilds.cache.get(reaction.message.guildId)
-    const member = guild.members.cache.get(user.id)
+    const member = await reaction.message.guild.members.fetch(user.id)
 
     try {
-      await member.roles.add(data.role)
+      const role = reaction.message.guild.roles.cache.find(
+        (x) => x.id == data.role
+      )
+
+      await member.roles.add(role)
     } catch (e) {
+      console.log(e)
       return
     }
   },
