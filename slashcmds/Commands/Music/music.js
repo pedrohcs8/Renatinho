@@ -732,7 +732,7 @@ module.exports = {
         .setColor('Red')
         .setDescription(`⛔ Erro: ${e}`)
 
-      return interaction.reply({ embeds: [errorEmbed] })
+      return interaction.channel.send({ embeds: [errorEmbed] })
     }
   },
 }
